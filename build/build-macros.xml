@@ -223,7 +223,8 @@
         <sequential>
             <mkdir dir="dist"/>
             <mkdir dir="classes"/>
-            <copy todir="libtemp" flatten="true">
+            <mkdir  dir="libtemp"/>
+            <copy todir="libtemp" flatten="true" >
                 <path refid="@{jars.to.pack}"/>
             </copy>
             <war destfile="dist/@{warfilename}"
