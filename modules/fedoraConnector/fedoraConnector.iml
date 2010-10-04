@@ -7,6 +7,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="userdatabase" />
+    <orderEntry type="library" name="domsutils" level="project" />
+    <orderEntry type="library" name="jersey" level="project" />
+    <orderEntry type="module" module-name="authutils" />
   </component>
 </module>
 
