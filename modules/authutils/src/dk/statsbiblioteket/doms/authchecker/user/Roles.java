@@ -6,7 +6,7 @@
 //
 
 
-package dk.statsbiblioteket.doms.authchecker.userdatabase.user;
+package dk.statsbiblioteket.doms.authchecker.user;
 
 import java.util.ArrayList;
 import java.util.List;
