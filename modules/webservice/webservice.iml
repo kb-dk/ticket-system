@@ -13,6 +13,8 @@
     <orderEntry type="library" name="domsutils" level="project" />
     <orderEntry type="library" name="jersey" level="project" />
     <orderEntry type="module" module-name="userdatabase" />
+    <orderEntry type="module" module-name="fedoraConnector" />
+    <orderEntry type="module" module-name="authutils" />
   </component>
 </module>
 

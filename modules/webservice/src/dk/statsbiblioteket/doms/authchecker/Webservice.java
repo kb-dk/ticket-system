@@ -1,12 +1,14 @@
 package dk.statsbiblioteket.doms.authchecker;
 
 import dk.statsbiblioteket.doms.authchecker.userdatabase.UserDatabase;
-import dk.statsbiblioteket.doms.authchecker.userdatabase.user.User;
-import dk.statsbiblioteket.doms.authchecker.userdatabase.user.Roles;
+import dk.statsbiblioteket.doms.authchecker.user.User;
+import dk.statsbiblioteket.doms.authchecker.user.Roles;
+import dk.statsbiblioteket.doms.authchecker.fedoraconnector.FedoraConnector;
+import dk.statsbiblioteket.doms.authchecker.exceptions.*;
+import dk.statsbiblioteket.doms.webservices.ConfigCollection;
 
 import javax.ws.rs.*;
 import java.util.List;
-import java.util.LinkedList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,7 +35,11 @@ public class Webservice {
             @PathParam("user")
             String user,
             @QueryParam("role")
-            List<String> roles){
+            List<String> roles) throws
+                                FedoraException,
+                                URLNotFoundException,
+                                InvalidCredentialsException,
+                                ResourceNotFoundException {
         /*for (String role : roles) {
             System.out.println("Given this role "+role);
         }
@@ -50,29 +56,29 @@ public class Webservice {
 
         /*Check auth against Fedora*/
 
+        String fedoralocation = ConfigCollection.getProperties().getProperty(
+                "dk.statsbiblioteket.doms.authchecker.fedoralocation");
 
+        FedoraConnector fedora = new FedoraConnector(fedoralocation);
+        String pid = fedora.getObjectWithThisURL(url, user, password);
+        fedora.getDatastreamProfile(pid,"CONTENTS",user,password);
 
-
-        return String.valueOf(true);
+        return password;
     }
 
     private String mkpass(String user) {
+        //TODO
         return user+"1";
     }
 
 
-    @GET
-    @Path("usage")
-    @Produces("text/plain")
-    public String usage(){
-        return "Usage";
-    }
-
 
     @GET
-    @Path("getRoles")
+    @Path("getRolesForUser/{user}/withPassword/{password}")
     @Produces("text/xml")
-    public User getRolesForUser(String username, String password)
+    public User getRolesForUser(
+            @PathParam("user") String username,
+            @PathParam("password") String password)
             throws UserNotFoundException {
         User user = UserDatabase.getUser(username);
         if (user.getPassword().equals(password)){

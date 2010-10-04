@@ -34,13 +34,12 @@
     <property name="global.dir" value="${basedir}/../../"/>
 
     <dirset id="module.dependencies" dir="${global.dir}/modules/">
-        <include name="repository"/>
-        <include name="services/view"/>
-        <include name="services/validator"/>
-        <include name="services/templates"/>
-        <include name="fedoraconnectors/fedoraclient"/>
+        <include name="userdatabase"/>
+        <include name="fedoraConnector"/>
+        <include name="authutils"/>
     </dirset>
 
+   
 </project>
 
 
