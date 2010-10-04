@@ -1,8 +1,5 @@
 package dk.statsbiblioteket.doms.authchecker;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -11,9 +8,10 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.callback.*;
 import java.util.*;
-import java.util.logging.Logger;
 import java.io.IOException;
-import java.io.File;
+
+import dk.statsbiblioteket.doms.authchecker.exceptions.InvalidCredentialsException;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,7 +54,8 @@ public class TempDatabaseModule implements LoginModule {
         this.handler = callbackHandler;
         // this.sharedState = sharedState;
         this.options = options;
-        client = new UserDBClient();
+        String wsLocation = (String) this.options.get("webserviceLocation");
+        client = new UserDBClient(wsLocation);
 
 
         String debugOption = (String) this.options.get("debug");
