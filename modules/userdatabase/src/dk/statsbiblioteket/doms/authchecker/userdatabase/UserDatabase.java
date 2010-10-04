@@ -1,9 +1,8 @@
 package dk.statsbiblioteket.doms.authchecker.userdatabase;
 
-import dk.statsbiblioteket.doms.authchecker.userdatabase.user.User;
+import dk.statsbiblioteket.doms.authchecker.user.User;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,24 +13,29 @@ import java.util.HashMap;
  */
 public class UserDatabase {
 
-    private static Map<String,User> userDB;
+    private static Map<String,UserTimestamp> userDB;
+
+    private static Date lastClean;
 
     static {
-        userDB = new HashMap<String,User>();
+        userDB = new HashMap<String,UserTimestamp>();
+        lastClean = new Date();
     }
 
 
     public static void addUser(User user){
-        userDB.put(user.getUsername(),user);
+        userDB.put(user.getUsername(),new UserTimestamp(user, new Date()));
         cleanup();
     }
 
     public static User getUser(String username){
         cleanup();
-        return userDB.get(username);
+        UserTimestamp user = userDB.get(username);
+        user.setLastAccessed(new Date());
+        return user;
+
     }
 
     private static void cleanup(){
-        
     }
 }
