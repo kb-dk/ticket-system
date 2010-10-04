@@ -6,7 +6,7 @@
 //
 
 
-package dk.statsbiblioteket.doms.authchecker.userdatabase.user;
+package dk.statsbiblioteket.doms.authchecker.user;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
