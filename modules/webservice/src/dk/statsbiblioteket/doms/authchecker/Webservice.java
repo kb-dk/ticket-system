@@ -8,7 +8,11 @@ import dk.statsbiblioteket.doms.authchecker.exceptions.*;
 import dk.statsbiblioteket.doms.webservices.ConfigCollection;
 
 import javax.ws.rs.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.util.List;
+import java.io.StringWriter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,8 +23,6 @@ import java.util.List;
  */
 @Path("/")
 public class Webservice {
-
-
 
     public Webservice() {
     }
@@ -79,13 +81,12 @@ public class Webservice {
     public User getRolesForUser(
             @PathParam("user") String username,
             @PathParam("password") String password)
-            throws UserNotFoundException {
+            throws BackendException {
         User user = UserDatabase.getUser(username);
-        if (user.getPassword().equals(password)){
+        if (user != null && user.getPassword().equals(password)){
             return user;
         } else{
             throw new UserNotFoundException("Username '"+username+"' with password '"+password+"' not found in user database");
         }
-
     }
 }
