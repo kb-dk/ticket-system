@@ -76,7 +76,7 @@ public class FedoraConnector {
             String query = "select $object\n"
                            + "from <#ri>\n"
                            + "where $object <fedora-model:label> '"+url+"'"
-                           + "and $object <fedora-model:state> 'info:fedora/fedora-system:def/model#Active'";
+                           + "and $object <fedora-model:state> <info:fedora/fedora-system:def/model#Active>";
 
             String objects = restApi
                     .path("/risearch")
