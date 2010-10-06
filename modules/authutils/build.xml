@@ -1,4 +1,4 @@
-<project name="userdatabase" basedir=".">
+<project name="authutils" basedir=".">
 
     <property name="global.dir" value="${basedir}/../../"/>
 
