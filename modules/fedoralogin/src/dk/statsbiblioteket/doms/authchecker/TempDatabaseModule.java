@@ -2,6 +2,7 @@ package dk.statsbiblioteket.doms.authchecker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.fcrepo.server.security.jaas.auth.UserPrincipal;
 
 import javax.security.auth.spi.LoginModule;
 import javax.security.auth.Subject;

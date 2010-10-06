@@ -9,8 +9,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-logging" level="project" />
     <orderEntry type="library" name="jersey" level="project" />
-    <orderEntry type="module" module-name="userdatabase" />
     <orderEntry type="module" module-name="authutils" />
+    <orderEntry type="library" name="fedora auth libs" level="project" />
   </component>
 </module>
 

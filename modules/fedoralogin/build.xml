@@ -17,6 +17,11 @@
     </dirset>
 
 
+    <dirset id="build.project.libs" dir="${global.dir}/lib/">
+        <include name="${fedora.auth.lib}"/>
+    </dirset>
+
+
 </project>
 
 

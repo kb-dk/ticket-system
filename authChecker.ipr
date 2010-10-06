@@ -357,6 +357,13 @@
       <JAVADOC />
       <SOURCES />
     </library>
+    <library name="fedora auth libs">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/fedora-3.4-auth/jars/fcrepo-security-jaas-3.4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
   </component>
 </project>
 
