@@ -15,7 +15,7 @@
             dk.statsbiblioteket.doms.webservices.ConfigContextListener
         </listener-class>
     </listener>
-
+<!--
     <filter>
         <display-name>AuthFilter</display-name>
         <filter-name>AuthFilter</filter-name>
@@ -28,14 +28,14 @@
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <servlet-name>AuthChecker</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <context-param>
         <param-name>
             dk.statsbiblioteket.doms.authchecker.fedoralocation
         </param-name>
         <param-value>
-            http://localhost:7980/fedora
+            http://localhost:8080/fedora
         </param-value>
     </context-param>
 
