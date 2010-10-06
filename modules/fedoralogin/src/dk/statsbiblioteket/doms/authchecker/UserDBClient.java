@@ -11,6 +11,12 @@ import java.io.UnsupportedEncodingException;
 import dk.statsbiblioteket.doms.authchecker.user.User;
 import dk.statsbiblioteket.doms.authchecker.user.Roles;
 import dk.statsbiblioteket.doms.authchecker.exceptions.InvalidCredentialsException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.ResourceNotFoundException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.FedoraException;
+
+import javax.ws.rs.core.Response;
+import static javax.ws.rs.core.Response.Status.FORBIDDEN;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +38,7 @@ public class UserDBClient {
     }
 
     public Map<String, Set<String>> getRolesFor(String username, String password)
-            throws InvalidCredentialsException {
+            throws BackendException {
 
         try {
             User user = restApi.path("/getRolesForUser/")
@@ -53,9 +59,20 @@ public class UserDBClient {
         } catch (UnsupportedEncodingException e) {
             throw new Error("UTF-8 not known on this platform",e);
         } catch (UniformInterfaceException e){
-            //TODO
+            String reason
+                    = e.getResponse().getClientResponseStatus().toString();
+            switch (e.getResponse().getClientResponseStatus()) {
+                case FORBIDDEN:
+                    throw new InvalidCredentialsException(reason,e);
+                case INTERNAL_SERVER_ERROR:
+                    throw new FedoraException(reason,e);
+                case NOT_FOUND:
+                    throw new ResourceNotFoundException(reason,e);
+                case UNAUTHORIZED:
+                    throw new InvalidCredentialsException(reason,e);
+                default:
+                    throw new BackendException(reason,e);
+            }
         }
-        return null;
-
     }
 }
