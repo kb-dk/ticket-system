@@ -13,25 +13,24 @@ import java.util.*;
  */
 public class UserDatabase {
 
-    private static Map<String,UserTimestamp> userDB;
+    private static Map<String,User> userDB;
 
     private static Date lastClean;
 
     static {
-        userDB = new HashMap<String,UserTimestamp>();
+        userDB = new HashMap<String,User>();
         lastClean = new Date();
     }
 
 
     public static void addUser(User user){
-        userDB.put(user.getUsername(),new UserTimestamp(user, new Date()));
+        userDB.put(user.getUsername(),user);
         cleanup();
     }
 
     public static User getUser(String username){
         cleanup();
-        UserTimestamp user = userDB.get(username);
-        user.setLastAccessed(new Date());
+        User user = userDB.get(username);
         return user;
 
     }
