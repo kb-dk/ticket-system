@@ -60,8 +60,8 @@ public class UserDBClient {
             throw new Error("UTF-8 not known on this platform",e);
         } catch (UniformInterfaceException e){
             String reason
-                    = e.getResponse().getClientResponseStatus().toString();
-            switch (e.getResponse().getClientResponseStatus()) {
+                    = e.getResponse().getResponseStatus().toString();
+            switch (e.getResponse().getResponseStatus()) {
                 case FORBIDDEN:
                     throw new InvalidCredentialsException(reason,e);
                 case INTERNAL_SERVER_ERROR:

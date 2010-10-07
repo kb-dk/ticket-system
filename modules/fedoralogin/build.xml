@@ -8,7 +8,6 @@
 
     <dirset  id="project.libs" dir="${global.dir}/lib">
         <include name="${commons-logging.lib}"/>
-        <include name="${jersey.lib}"/>
     </dirset>
 
     
@@ -19,6 +18,7 @@
 
     <dirset id="build.project.libs" dir="${global.dir}/lib/">
         <include name="${fedora.auth.lib}"/>
+        <include name="${old.jersey.lib}"/>
     </dirset>
 
 
