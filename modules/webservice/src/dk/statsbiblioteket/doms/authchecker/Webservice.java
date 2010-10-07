@@ -29,10 +29,10 @@ public class Webservice {
 
 
     @GET
-    @Path("is/{url}/allowedFor/{user}/WithTheseRoles")
+    @Path("isURLallowedFor/{user}/WithTheseRoles")
     @Produces("text/plain")
     public String isAllowedForThisUserWithTheseRoles(
-            @PathParam("url")
+            @QueryParam("url")
             String url,
             @PathParam("user")
             String user,
