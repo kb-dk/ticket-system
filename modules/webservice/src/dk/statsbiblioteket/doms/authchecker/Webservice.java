@@ -89,7 +89,7 @@ public class Webservice {
 
     @GET
     @Path("isURLallowedFor/{user}/WithTheseRoles")
-    @Produces("text/plain")
+    @Produces("text/xml")
     public User isUrlAllowedForThisUserWithTheseRoles(
             @QueryParam("url")
             String url,
@@ -131,7 +131,7 @@ public class Webservice {
 
     @GET
     @Path("isURLallowedWithTheseRoles")
-    @Produces("text/plain")
+    @Produces("text/xml")
     public User isUrlAllowedWithTheseRoles(
             @QueryParam("url")
             String url,
@@ -182,6 +182,7 @@ public class Webservice {
 
     @POST
     @Path("issueTicket")
+    @Produces("text/xml")
     public Ticket issueTicket(
             @QueryParam("username")
             String username,
@@ -196,6 +197,7 @@ public class Webservice {
 
     @GET
     @Path("resolveTicket")
+    @Produces("text/xml")
     public Ticket resolveTicket(
             @QueryParam("ID")
             String ID)
