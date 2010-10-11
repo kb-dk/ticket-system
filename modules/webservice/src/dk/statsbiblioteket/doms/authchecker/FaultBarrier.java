@@ -1,12 +1,12 @@
 package dk.statsbiblioteket.doms.authchecker;
 
-import dk.statsbiblioteket.doms.authchecker.exceptions.*;
-
-import javax.ws.rs.ext.Provider;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.core.Response;
-
 import com.sun.jersey.api.client.ClientResponse;
+import dk.statsbiblioteket.doms.authchecker.exceptions.*;
+import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketNotFoundException;
+
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,6 +27,8 @@ public class FaultBarrier implements ExceptionMapper<BackendException>{
             return Response.serverError().entity(exception.getMessage()+": Fedora error, failure").build();
         } else if (exception instanceof UserNotFoundException){
             return Response.status(ClientResponse.Status.FORBIDDEN).entity(exception.getMessage()+": User not found, failure").build();
+        } else if (exception instanceof TicketNotFoundException){
+            return Response.status(ClientResponse.Status.GONE).entity(exception.getMessage()+": The ticket could not be found").build();
         }
         return Response.serverError().entity(exception.getMessage()+
                                              ": Generic failure, see server logs.").build();
