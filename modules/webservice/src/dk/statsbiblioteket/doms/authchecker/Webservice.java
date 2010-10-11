@@ -195,9 +195,9 @@ public class Webservice {
 
 
     @GET
-    @Path("resolveTicket/{ID}")
+    @Path("resolveTicket")
     public Ticket resolveTicket(
-            @PathParam("ID")
+            @QueryParam("ID")
             String ID)
             throws TicketNotFoundException {
         log.trace("Entered resolveTicket with param ID='"+ID+"'");
