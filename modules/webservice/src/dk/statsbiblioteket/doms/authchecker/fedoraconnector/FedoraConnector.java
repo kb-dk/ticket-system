@@ -42,8 +42,10 @@ public class FedoraConnector {
             FedoraException,
             ResourceNotFoundException {
          try {
-            String profile = restApi.path(URLEncoder.encode(pid, "UTF-8"))
-                    .path("/objects/datastreams/")
+            String profile = restApi
+                    .path("/objects/")
+                    .path(URLEncoder.encode(pid, "UTF-8"))
+                    .path("/datastreams/")
                     .path(URLEncoder.encode(dsid, "UTF-8"))
                     .header("Authorization", credsAsBase64(username,password))
                     .get(String.class);
