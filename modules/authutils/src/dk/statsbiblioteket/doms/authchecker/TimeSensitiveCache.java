@@ -2,6 +2,7 @@ package dk.statsbiblioteket.doms.authchecker;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Iterator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,9 +57,13 @@ public class  TimeSensitiveCache<T extends Cacheble> {
         if (elements.isEmpty()){
             return;
         }
-        for (T element : elements.values()) {
+
+        Iterator<T> iterator = elements.values().iterator();
+        T element;
+        while (iterator.hasNext()){
+            element = iterator.next();
             if (isToOld(element.getCreationTime())){
-                elements.remove(element.getID());
+                iterator.remove();
             } else {
                 break;
             }
