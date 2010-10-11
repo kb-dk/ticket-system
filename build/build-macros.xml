@@ -288,6 +288,7 @@
                 </zipfileset>
 
             </zip>
+            <delete dir="tempjars"/>
         </sequential>
     </macrodef>
 
