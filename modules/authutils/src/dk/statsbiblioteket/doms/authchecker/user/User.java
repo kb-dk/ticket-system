@@ -8,9 +8,12 @@
 
 package dk.statsbiblioteket.doms.authchecker.user;
 
-import java.util.ArrayList;
-import java.util.List;
+import dk.statsbiblioteket.doms.authchecker.Cacheble;
+
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -39,28 +42,46 @@ import javax.xml.bind.annotation.*;
         "attributes"
 })
 @XmlRootElement
-public class User {
+public class User implements Cacheble{
 
     protected String username;
+
     @XmlTransient
     protected String password;
+
+    @XmlTransient
+    protected long creationTime;
+
+    @XmlTransient
+    protected String ID;
+
     protected List<Roles> attributes;
 
 
     public User() {
+        creationTime = new Date().getTime();
     }
 
-    public User(String username, String password, List<Roles> attributes) {
+    public User(String username,
+                String password,
+                String ID,
+                List<Roles> attributes) {
+        this();
         this.username = username;
         this.password = password;
+        this.ID = ID;
         this.attributes = attributes;
     }
 
-    public User(String username, String password, Roles roles) {
+    public User(String username,
+                String password,
+                String ID,
+                Roles attributes) {
+        this();
         this.username = username;
         this.password = password;
-
-        getAttributes().add(roles);
+        this.ID = ID;
+        getAttributes().add(attributes);
     }
 
     /**
@@ -122,5 +143,17 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 }

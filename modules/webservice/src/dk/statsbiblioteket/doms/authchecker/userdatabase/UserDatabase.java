@@ -1,8 +1,8 @@
 package dk.statsbiblioteket.doms.authchecker.userdatabase;
 
+import dk.statsbiblioteket.doms.authchecker.TimeSensitiveCache;
+import dk.statsbiblioteket.doms.authchecker.user.Roles;
 import dk.statsbiblioteket.doms.authchecker.user.User;
-
-import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,79 +11,21 @@ import java.util.*;
  * Time: 10:27:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public class UserDatabase {
+public class UserDatabase{
+    private  TimeSensitiveCache<User> cache;
 
-    private static Map<String,User> userDB;
-
-    private static Map<String, Date> usernamesToDates;
-
-    private static Deque<String> accessOrder;
-
-    private static Date lastClean;
-
-    private static long age;
-
-    static {
-        userDB = new HashMap<String,User>();
-        accessOrder = new LinkedList<String>();
-        usernamesToDates = new HashMap<String,Date>();
-        lastClean = new Date();
-        age = 1000*60*10;//10 min
+    public UserDatabase(long timeToLive) {
+        cache = new TimeSensitiveCache<User>(timeToLive);
     }
 
-
-    public synchronized static void addUser(User user){
-        String name = user.getUsername();
-        userDB.put(name,user);
-        usernamesToDates.put(name,new Date());
-        accessOrder.offerFirst(name);
-        cleanup();
+    public  User getUser(String username){
+        return cache.getElement(username);
     }
 
-    public synchronized static User getUser(String username){
-        User user = userDB.get(username);
-/*
-        if (user != null){
-            usernamesToDates.put(username,new Date());
-            accessOrder.removeLastOccurrence(username); //TODO O(n)
-            accessOrder.offerFirst(username);
-        }
-*/
-        cleanup();
+    public User addUser(String username, String password, Roles fedoraroles) {
+        String id = username;
+        User user = new User(username,password,id,fedoraroles);
+        cache.addElement(user);
         return user;
-
-    }
-
-    private synchronized static void cleanup(){
-        if (!isToOld(lastClean)){
-            return;
-        }
-
-        lastClean = new Date();
-        if (userDB.isEmpty()){
-            return;
-        }
-        //Get the oldest accessed username
-        String lastUsername = accessOrder.getLast();
-
-        //Check the date on that username
-        Date dateOfLast = usernamesToDates.get(lastUsername);
-
-        //If too old, remove, and redo
-        if (isToOld(dateOfLast)){
-            userDB.remove(lastUsername);
-            usernamesToDates.remove(lastUsername);
-            accessOrder.removeLast();
-            cleanup();
-        }
-    }
-
-    private synchronized static boolean isToOld(Date event) {
-        Date now = new Date();
-        if (event.getTime()+age>=now.getTime()){
-            return false;
-        } else {
-            return true;
-        }
     }
 }
