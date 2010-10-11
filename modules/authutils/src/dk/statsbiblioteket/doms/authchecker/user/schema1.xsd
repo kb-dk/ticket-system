@@ -5,8 +5,9 @@
 
     <xs:complexType name="user">
         <xs:sequence>
-            <xs:element name="username" type="xs:string" minOccurs="0"/>
+            <xs:element name="username" type="xs:string" minOccurs="1"/>
             <xs:element name="attributes" type="roles" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="password" type="xs:string" minOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

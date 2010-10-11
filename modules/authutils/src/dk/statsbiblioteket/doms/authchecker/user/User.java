@@ -39,14 +39,18 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "user", propOrder = {
         "username",
-        "attributes"
+        "attributes",
+        "password"
+
 })
 @XmlRootElement
 public class User implements Cacheble{
 
+    @XmlElement(required = true)
     protected String username;
-
-    @XmlTransient
+    @XmlElement()
+    protected List<Roles> attributes;
+    @XmlElement(required = true)
     protected String password;
 
     @XmlTransient
@@ -55,7 +59,7 @@ public class User implements Cacheble{
     @XmlTransient
     protected String ID;
 
-    protected List<Roles> attributes;
+
 
 
     public User() {
