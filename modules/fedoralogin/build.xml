@@ -4,12 +4,6 @@
 
     <!--Contain the normal build tasks, including war-->
     <import file="${global.dir}/build/build-executable-module.xml"/>
-
-
-    <dirset  id="project.libs" dir="${global.dir}/lib">
-        <include name="${commons-logging.lib}"/>
-    </dirset>
-
     
     <dirset id="module.dependencies" dir="${global.dir}/modules/">
         <include name="authutils"/>
@@ -19,6 +13,7 @@
     <dirset id="build.project.libs" dir="${global.dir}/lib/">
         <include name="${fedora.auth.lib}"/>
         <include name="${old.jersey.lib}"/>
+        <include name="${commons-logging.lib}"/>
     </dirset>
 
 
