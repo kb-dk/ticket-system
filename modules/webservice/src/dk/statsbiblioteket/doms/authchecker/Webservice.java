@@ -13,8 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.ws.rs.*;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -110,8 +109,34 @@ public class Webservice {
         log.trace("Password created for user='"+ username +"': '"+password+"'");
         /*Store user information in temp database*/
 
-        Roles fedoraroles = new Roles("fedoraRole", roles);
-        User user = users.addUser(username, password, fedoraroles);
+        Map<String,Roles> fedoraroles = new HashMap<String, Roles>();
+        for (String role : roles) {
+            String[] splittedrole = role.split("@");
+            String association;
+            String rolestring;
+            if (splittedrole.length == 2){
+                association = splittedrole[1];
+                rolestring = splittedrole[0];
+            } else {
+                association = "fedoraRole";
+                rolestring = role;
+            }
+            Roles roleobject = fedoraroles.get(association);//get roles for association
+            if (roleobject == null){
+                //not previously met association
+                List<String> rolelistsingle = new ArrayList<String>();
+                rolelistsingle.add(rolestring);
+                roleobject = new Roles(association,rolelistsingle);
+                fedoraroles.put(association,roleobject);
+            } else {
+                roleobject.getRoles().add(rolestring);
+            }
+        }
+
+        ArrayList<Roles> roleslist = Collections.list(
+                Collections.enumeration(
+                        fedoraroles.values()));
+        User user = users.addUser(username, password,roleslist);
 
         log.trace("User='"+ username +" added to the database");
 
