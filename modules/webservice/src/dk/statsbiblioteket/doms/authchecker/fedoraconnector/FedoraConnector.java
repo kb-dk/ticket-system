@@ -1,19 +1,21 @@
 package dk.statsbiblioteket.doms.authchecker.fedoraconnector;
 
-import dk.statsbiblioteket.doms.authchecker.exceptions.InvalidCredentialsException;
-import dk.statsbiblioteket.doms.authchecker.exceptions.URLNotFoundException;
-import dk.statsbiblioteket.doms.authchecker.exceptions.FedoraException;
-import dk.statsbiblioteket.doms.authchecker.exceptions.ResourceNotFoundException;
-import dk.statsbiblioteket.doms.webservices.Base64;
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
+import dk.statsbiblioteket.doms.authchecker.exceptions.FedoraException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.InvalidCredentialsException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.ResourceNotFoundException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.URLNotFoundException;
+import dk.statsbiblioteket.doms.webservices.Base64;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +26,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class FedoraConnector {
 
+    private Log log = LogFactory.getLog(FedoraConnector.class);
 
     private static Client client = Client.create();
     private WebResource restApi;
@@ -41,7 +44,10 @@ public class FedoraConnector {
             InvalidCredentialsException,
             FedoraException,
             ResourceNotFoundException {
-         try {
+        log.trace("Entereing getDatastreamProfile with pid='"+pid
+                  +"' and dsid='"+dsid+"' and username='"
+                  +username+"' and password='"+password+"'");
+        try {
             String profile = restApi
                     .path("/objects/")
                     .path(URLEncoder.encode(pid, "UTF-8"))
@@ -51,6 +57,7 @@ public class FedoraConnector {
                     .get(String.class);
 
         } catch (UnsupportedEncodingException e) {
+            log.error("UTF-8 not known, strange",e);
             throw new Error("UTF-8 not known",e);
         } catch (UniformInterfaceException e) {
             if (e.getResponse().getStatus()
@@ -58,7 +65,8 @@ public class FedoraConnector {
                 throw new InvalidCredentialsException(
                         "Invalid Credentials Supplied",
                         e);
-            } else if (e.getResponse().getStatus() == ClientResponse.Status.NOT_FOUND.getStatusCode()){
+            } else if (e.getResponse().getStatus()
+                       == ClientResponse.Status.NOT_FOUND.getStatusCode()){
                 throw new ResourceNotFoundException("The datastream is not found",e);
             }
             else {
@@ -73,12 +81,15 @@ public class FedoraConnector {
             throws InvalidCredentialsException,
                    URLNotFoundException,
                    FedoraException{
-        //TODO sanitize label
+        log.trace("Entereing getObjectWithThisURL with url='"+url
+                  +"' and username='"+username
+                  +"' and password='"+password+"'");
         try {// TODO duplicated from doms server
             String query = "select $object\n"
                            + "from <#ri>\n"
                            + "where $object <fedora-model:label> '"+url+"'"
                            + "and $object <fedora-model:state> <info:fedora/fedora-system:def/model#Active>";
+            log.trace("Preparing to execute statement '"+query+"'");
 
             String objects = restApi
                     .path("/risearch")
@@ -90,6 +101,7 @@ public class FedoraConnector {
                     .queryParam("query", query)
                     .header("Authorization", credsAsBase64(username,password))
                     .post(String.class);
+            log.trace("Found these objects '"+objects+"'");
             String[] lines = objects.split("\n");
             List<String> foundobjects = new ArrayList<String>();
             for (String line : lines) {
@@ -101,7 +113,9 @@ public class FedoraConnector {
                 }
                 foundobjects.add(line);
             }
+            log.trace("After cleanup, the object list is '"+foundobjects.toString()+"'");
             if (!foundobjects.isEmpty()){
+                log.trace("Returning first object from list");
                 return foundobjects.get(0);
             } else {
                 throw new URLNotFoundException("The provided url '"+url+"' is not found in the repository");

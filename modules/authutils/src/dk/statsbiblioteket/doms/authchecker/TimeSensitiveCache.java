@@ -1,8 +1,11 @@
 package dk.statsbiblioteket.doms.authchecker;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,6 +16,8 @@ import java.util.Iterator;
  */
 public class  TimeSensitiveCache<T extends Cacheble> {
 
+    private Log log = LogFactory.getLog(TimeSensitiveCache.class);
+
     private LinkedHashMap<String,T> elements;
 
     private Date lastClean;
@@ -20,6 +25,7 @@ public class  TimeSensitiveCache<T extends Cacheble> {
     private long timeToLive;
 
     public TimeSensitiveCache(long timeToLive) {
+        log.trace("Creating a new TimeSensitiveCache with timeToLive='"+timeToLive+"'");
         this.timeToLive = timeToLive;
         elements = new LinkedHashMap<String,T>();
         lastClean = new Date();
@@ -33,6 +39,7 @@ public class  TimeSensitiveCache<T extends Cacheble> {
      * @return the element, or null if not found
      */
     public synchronized T getElement(String id){
+        log.trace("Entered getElement with id='"+id+"'");
         cleanup();
         return elements.get(id);
     }
@@ -43,18 +50,23 @@ public class  TimeSensitiveCache<T extends Cacheble> {
      * @param element the element to insert.
      */
     public synchronized void addElement(T element){
+        log.trace("Entered addElement with element '"
+                  +element.toString()+"' with id='"+element.getID()+"'");
         cleanup();
         String id = element.getID();
         elements.put(id,element);
     }
 
     private synchronized void cleanup(){
+        log.trace("Entered cleanup");
         if (!isToOld(lastClean.getTime())){
+            log.trace("Did a recent cleanup, aborting");
             return;
         }
 
         lastClean = new Date();
         if (elements.isEmpty()){
+            log.trace("No elements in cache, aborting");
             return;
         }
 
@@ -63,6 +75,8 @@ public class  TimeSensitiveCache<T extends Cacheble> {
         while (iterator.hasNext()){
             element = iterator.next();
             if (isToOld(element.getCreationTime())){
+                log.trace("Removing element='"+element.getID()
+                          +"' as it got to old");
                 iterator.remove();
             } else {
                 break;

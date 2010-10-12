@@ -3,6 +3,8 @@ package dk.statsbiblioteket.doms.authchecker;
 import com.sun.jersey.api.client.ClientResponse;
 import dk.statsbiblioteket.doms.authchecker.exceptions.*;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketNotFoundException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -18,6 +20,8 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class FaultBarrier implements ExceptionMapper<BackendException>{
 
+    private Log log = LogFactory.getLog(FaultBarrier.class);
+
     public Response toResponse(BackendException exception) {
         if (exception instanceof InvalidCredentialsException){
             return Response.status(ClientResponse.Status.FORBIDDEN).entity(exception.getMessage()+": Wrong credentials supplied, failure").build();
@@ -30,6 +34,7 @@ public class FaultBarrier implements ExceptionMapper<BackendException>{
         } else if (exception instanceof TicketNotFoundException){
             return Response.status(ClientResponse.Status.GONE).entity(exception.getMessage()+": The ticket could not be found").build();
         }
+        log.warn("Caught unknown exception, review how this got here",exception);
         return Response.serverError().entity(exception.getMessage()+
                                              ": Generic failure, see server logs.").build();
     }
