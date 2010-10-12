@@ -110,7 +110,6 @@ public class Webservice {
         /*Store user information in temp database*/
 
         Map<String,Roles> fedoraroles = new HashMap<String, Roles>();
-        //TODO fix association
         for (String role : roles) {
             String[] splittedrole = role.split("@");
             String association;
