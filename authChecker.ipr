@@ -76,6 +76,7 @@
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="IdProvider" IDEtalkID="6AEC5CF3B106B1E1B47741F2C663C5CC" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
     <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
@@ -279,6 +280,43 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="branchMap">
+                <map>
+                  <entry key="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/branches">
+                    <value>
+                      <list />
+                    </value>
+                  </entry>
+                  <entry key="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags">
+                    <value>
+                      <list>
+                        <SvnBranchItem>
+                          <option name="creationDateMillis" value="1286887561302" />
+                          <option name="revision" value="920" />
+                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.1" />
+                        </SvnBranchItem>
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="branchUrls">
+                <list>
+                  <option value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/branches" />
+                  <option value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags" />
+                </list>
+              </option>
+              <option name="trunkUrl" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
@@ -288,18 +326,18 @@
   <component name="libraryTable">
     <library name="domsutils">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/webservice-common.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/surveyable_impl.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/surveyable_interface.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/jars/webservice-common.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/jars/surveyable_interface.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/jars/surveyable_impl.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_impl/tempsrc" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_interface/src" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_impl/src" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/webservice-common/tempsrc" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/webservice-common/src" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_interface/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/src/domsutil-0.0.10-src.zip!/domsutil-0.0.10/modules/webservice-common/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/src/domsutil-0.0.10-src.zip!/domsutil-0.0.10/modules/surveyable/surveyable_impl/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/src/domsutil-0.0.10-src.zip!/domsutil-0.0.10/modules/surveyable/surveyable_interface/src" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/src/domsutil-0.0.10-src.zip!/domsutil-0.0.10/modules/surveyable/surveyable_impl/src" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/src/domsutil-0.0.10-src.zip!/domsutil-0.0.10/modules/surveyable/surveyable_interface/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.10/src/domsutil-0.0.10-src.zip!/domsutil-0.0.10/modules/webservice-common/src" />
       </SOURCES>
     </library>
     <library name="jersey">
