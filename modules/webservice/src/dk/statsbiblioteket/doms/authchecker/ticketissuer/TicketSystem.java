@@ -1,6 +1,5 @@
 package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
-//import dk.statsbiblioteket.doms.authchecker.TimeSensitiveCache;
 import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
 import java.util.Random;
@@ -20,7 +19,7 @@ public class TicketSystem {
     private static final Random random = new Random();
 
     public TicketSystem(long timeToLive) {
-        tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, true);//30 sec
+        tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, false);//30 sec
     }
 
 

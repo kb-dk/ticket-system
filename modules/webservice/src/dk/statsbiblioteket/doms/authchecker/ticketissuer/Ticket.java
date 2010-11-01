@@ -1,6 +1,5 @@
 package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
-import dk.statsbiblioteket.doms.authchecker.Cacheble;
 
 import javax.xml.bind.annotation.*;
 import java.util.Date;
@@ -12,7 +11,7 @@ import java.util.Date;
         "username"
 })
 @XmlRootElement
-public class Ticket implements Cacheble{
+public class Ticket{
 
 
     private String ID;
@@ -20,9 +19,6 @@ public class Ticket implements Cacheble{
     private String url;
 
     private String username;
-
-    @XmlTransient
-    private long creationTime = new Date().getTime();
 
     public Ticket() {
     }
@@ -41,10 +37,7 @@ public class Ticket implements Cacheble{
         return username;
     }
 
-    public long getCreationTime() {
-        return creationTime;
-    }
-
+   
     public String getID() {
         return ID;
     }

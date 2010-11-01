@@ -8,7 +8,6 @@
 
 package dk.statsbiblioteket.doms.authchecker.user;
 
-import dk.statsbiblioteket.doms.authchecker.Cacheble;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ import java.util.List;
 
 })
 @XmlRootElement
-public class User implements Cacheble{
+public class User{
 
     @XmlElement(required = true)
     protected String username;
@@ -54,16 +53,13 @@ public class User implements Cacheble{
     protected String password;
 
     @XmlTransient
-    protected long creationTime;
-
-    @XmlTransient
     protected String ID;
 
 
 
 
     public User() {
-        creationTime = new Date().getTime();
+
     }
 
     public User(String username,
@@ -147,10 +143,6 @@ public class User implements Cacheble{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public long getCreationTime() {
-        return creationTime;
     }
 
     public String getID() {
