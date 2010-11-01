@@ -369,6 +369,15 @@
       <JAVADOC />
       <SOURCES />
     </library>
+    <library name="sbutil">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/sbutil-0.5.2/jars/sbutil-0.5.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/sbutil-0.5.2/src/sbutil-0.5.2-src.zip!/sbutil-0.5.2/src" />
+      </SOURCES>
+    </library>
   </component>
 </project>
 

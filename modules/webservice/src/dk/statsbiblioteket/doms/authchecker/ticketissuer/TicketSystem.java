@@ -1,12 +1,13 @@
 package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
-import dk.statsbiblioteket.doms.authchecker.TimeSensitiveCache;
+//import dk.statsbiblioteket.doms.authchecker.TimeSensitiveCache;
+import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
 import java.util.Random;
 
 /**
  * Created by IntelliJ IDEA.
- * User: abr
+ * User: abr + mar
  * Date: Oct 7, 2010
  * Time: 3:19:56 PM
  * To change this template use File | Settings | File Templates.
@@ -14,12 +15,12 @@ import java.util.Random;
 public class TicketSystem {
 
 
-    private TimeSensitiveCache<Ticket> tickets;
+    private TimeSensitiveCache<String, Ticket> tickets;
 
     private static final Random random = new Random();
 
     public TicketSystem(long timeToLive) {
-        tickets = new TimeSensitiveCache<Ticket>(timeToLive);//30 sec
+        tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, true);//30 sec
     }
 
 
@@ -30,7 +31,7 @@ public class TicketSystem {
      * @return the ticket, or null of the ticket is not found
      */
     public Ticket getTicketFromID(String id){
-        return tickets.getElement(id);
+        return tickets.get(id);
     }
 
 
@@ -43,7 +44,7 @@ public class TicketSystem {
     public Ticket issueTicket(String username, String url){
         String id = generateID(username,url);
         Ticket ticket = new Ticket(id, url, username);
-        tickets.addElement(ticket);
+        tickets.put(id,ticket);
         return ticket;
     }
 
