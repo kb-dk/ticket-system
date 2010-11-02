@@ -48,7 +48,7 @@
             dk.statsbiblioteket.doms.authchecker.tickets.timeToLive
         </param-name>
         <param-value>
-            30000
+            1200000
         </param-value>
     </context-param>
 
@@ -61,7 +61,7 @@
             dk.statsbiblioteket.doms.authchecker.users.timeToLive
         </param-name>
         <param-value>
-            30000
+            1200000
         </param-value>
     </context-param>
 
