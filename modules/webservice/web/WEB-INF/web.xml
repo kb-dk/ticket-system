@@ -66,6 +66,18 @@
     </context-param>
 
 
+
+    <context-param>
+        <description>The class that will be exposed for surveillance
+        </description>
+        <param-name>
+            dk.statsbiblioteket.doms.domsutil.surveyable.surveyables
+        </param-name>
+        <param-value>
+            dk.statsbiblioteket.doms.authchecker.AuthCheckerSurveyable
+        </param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>AuthChecker</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
