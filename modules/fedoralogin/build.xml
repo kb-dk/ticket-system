@@ -14,6 +14,7 @@
         <include name="${fedora.auth.lib}"/>
         <include name="${old.jersey.lib}"/>
         <include name="${commons-logging.lib}"/>
+        <include name="${log4j.lib}"/>
     </dirset>
 
 
