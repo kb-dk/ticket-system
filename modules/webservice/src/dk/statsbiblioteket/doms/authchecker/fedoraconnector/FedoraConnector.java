@@ -8,7 +8,7 @@ import dk.statsbiblioteket.doms.authchecker.exceptions.FedoraException;
 import dk.statsbiblioteket.doms.authchecker.exceptions.InvalidCredentialsException;
 import dk.statsbiblioteket.doms.authchecker.exceptions.ResourceNotFoundException;
 import dk.statsbiblioteket.doms.authchecker.exceptions.URLNotFoundException;
-import dk.statsbiblioteket.doms.webservices.Base64;
+import dk.statsbiblioteket.doms.webservices.authentication.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -8,7 +8,7 @@ import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem;
 import dk.statsbiblioteket.doms.authchecker.user.Roles;
 import dk.statsbiblioteket.doms.authchecker.user.User;
 import dk.statsbiblioteket.doms.authchecker.userdatabase.UserDatabase;
-import dk.statsbiblioteket.doms.webservices.ConfigCollection;
+import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
