@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AuthCheckerSurveyable implements Surveyable {
     /** The name this status reports. */
-    private static final String SURVEYABLE_NAME = "AuthChecker";
+    private static final String SURVEYABLE_NAME = "DomsAuthchecker";
 
     /** Log for this class. */
     private final Log log = LogFactory.getLog(getClass());
