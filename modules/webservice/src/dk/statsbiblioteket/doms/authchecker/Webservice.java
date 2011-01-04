@@ -121,6 +121,11 @@ public class Webservice {
                 association = "fedoraRole";
                 rolestring = role;
             }
+            if (association.equalsIgnoreCase("fedoraRole")
+                && rolestring.equalsIgnoreCase("administrator")){
+                log.debug("The user '"+username+"' attempted to acquire administrator rights. Not allowed.");
+                continue;
+            }
             Roles roleobject = fedoraroles.get(association);//get roles for association
             if (roleobject == null){
                 //not previously met association
