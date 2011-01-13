@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.12
+  ~ Doms build framework version 1.0.13
   ~
   ~ $Id$
   ~ $Revision$
@@ -190,6 +190,7 @@
         <delete dir="temp/packagetemp"/>
 
     </target>
+
 
 
     <target name="release.src" depends="distclean">
