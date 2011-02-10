@@ -1,5 +1,0 @@
-jersey 1.3 into fedora
-
-modify fedora.web.xml userprincipal
-modify jaas.conf
-
