@@ -10,7 +10,7 @@
         <version>0.0.7</version>
     </parent>
 
-    <artifactId>fedoralogin</artifactId>
+    <artifactId>authchecker-fedoralogin</artifactId>
 
     <dependencies>
         <dependency>
@@ -22,12 +22,12 @@
         <dependency>
             <groupId>org.fcrepo</groupId>
             <artifactId>fcrepo-security-jaas</artifactId>
-            <version>${fedora.version}</version>
+            <version>${fcrepo.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>authutils</artifactId>
+            <artifactId>authchecker-authutils</artifactId>
             <version>${project.version}</version>
         </dependency>
 

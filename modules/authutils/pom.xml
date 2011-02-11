@@ -11,7 +11,7 @@
     </parent>
 
 
-    <artifactId>authutils</artifactId>
+    <artifactId>${parent.artifactId}-authutils</artifactId>
 
     
 </project>
