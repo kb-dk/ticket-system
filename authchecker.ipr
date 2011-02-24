@@ -337,67 +337,6 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/branches">
-                    <value>
-                      <list>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1296218676215" />
-                          <option name="revision" value="1559" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/branches/release0.0.7" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1296218676215" />
-                          <option name="revision" value="1559" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/branches/release0.07" />
-                        </SvnBranchItem>
-                      </list>
-                    </value>
-                  </entry>
-                  <entry key="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags">
-                    <value>
-                      <list>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1296220806752" />
-                          <option name="revision" value="1566" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.7" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1295031865626" />
-                          <option name="revision" value="1531" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.6" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1295009710609" />
-                          <option name="revision" value="1499" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.5" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1294928756389" />
-                          <option name="revision" value="1472" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.4" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1290532053855" />
-                          <option name="revision" value="1293" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.3" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1288701815004" />
-                          <option name="revision" value="1186" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.2" />
-                        </SvnBranchItem>
-                        <SvnBranchItem>
-                          <option name="creationDateMillis" value="1286887561302" />
-                          <option name="revision" value="920" />
-                          <option name="url" value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/tags/release0.0.1" />
-                        </SvnBranchItem>
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://doms.svn.sourceforge.net/svnroot/doms/authChecker/branches" />
