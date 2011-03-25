@@ -23,40 +23,22 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 @Path("/")
-public class Webservice {
+public class Authchecker {
 
-    private static TicketSystem tickets;
     private static UserDatabase users;
 
     private static final Object lock = new Object();
 
-    private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.doms.authchecker.tickets.timeToLive";
-
     private static final String USER_TTL_PROP ="dk.statsbiblioteket.doms.authchecker.users.timeToLive";
-    private Log log = LogFactory.getLog(Webservice.class);
+    private Log log = LogFactory.getLog(Authchecker.class);
     private String fedoralocation;
     private FedoraConnector fedora;
 
     private static final Random random = new Random();
 
-    public Webservice() throws BackendException {
+    public Authchecker() throws BackendException {
         log.trace("Created a new authchecker webservice object");
         synchronized (lock){
-            if (tickets == null){
-                long ttl;
-                try {
-                    String ttlString = ConfigCollection.getProperties()
-                            .getProperty(TICKET_TTL_PROP,""+30*1000);
-                    log.trace("Read '"+TICKET_TTL_PROP+"' property as '"+ttlString+"'");
-                    ttl = Long.parseLong(ttlString);
-                } catch (NumberFormatException e) {
-                    log.warn("Could not parse the  '"+ TICKET_TTL_PROP
-                             +"' as a long, using default 30 sec timetolive",e);
-                    ttl = 30*1000;
-                }
-                tickets = new TicketSystem(ttl);
-
-            }
             if (users == null){
                 long ttl;
                 try {
@@ -111,7 +93,7 @@ public class Webservice {
 
         Map<String,Roles> fedoraroles = new HashMap<String, Roles>();
         for (String role : roles) {
-            String[] splittedrole = role.split("@");
+            String[] splittedrole = role.split("@",2);
             String association;
             String rolestring;
             if (splittedrole.length == 2){
@@ -210,34 +192,4 @@ public class Webservice {
         }
     }
 
-    @POST
-    @Path("issueTicket")
-    @Produces("text/xml")
-    public Ticket issueTicket(
-            @QueryParam("username")
-            String username,
-            @QueryParam("url")
-            String url){
-        log.trace("Entered issueTicket with params '"+username+"' and url='"+url+"'");
-        Ticket ticket = tickets.issueTicket(username, url);
-        log.trace("Issued ticket='"+ticket.getID()+"'");
-        return ticket;
-    }
-
-
-    @GET
-    @Path("resolveTicket")
-    @Produces("text/xml")
-    public Ticket resolveTicket(
-            @QueryParam("ID")
-            String ID)
-            throws TicketNotFoundException {
-        log.trace("Entered resolveTicket with param ID='"+ID+"'");
-        Ticket ticket = tickets.getTicketFromID(ID);
-        if (ticket == null){
-            throw new TicketNotFoundException("The ticket ID '"+ID+"' was not found in the system");
-        }
-        log.trace("Found ticket='"+ticket.getID()+"'");
-        return ticket;
-    }
 }

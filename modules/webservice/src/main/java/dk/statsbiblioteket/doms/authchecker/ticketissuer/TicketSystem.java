@@ -2,7 +2,11 @@ package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
 import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -47,8 +51,30 @@ public class TicketSystem {
         return ticket;
     }
 
+    public Ticket issueTicket(String username, String url, String... values){
+
+        List<Property> properties = new ArrayList<Property>(values.length);
+        for (int i = 0; i < values.length; i+=1) {
+            String[] bits = values[i].split("\\@", 2);
+            if (bits.length != 2){
+                continue;
+            }
+            String name = bits[0];
+            String value = bits[1];
+            properties.add(new Property(name,value));
+        }
+
+        String id = generateID(username,url);
+        Ticket ticket = new Ticket(id, url, username,properties);
+        tickets.put(id,ticket);
+        return ticket;
+    }
+
+
+
     private String generateID(String username, String url) {
-       return username+"@"+url+"@"+random.nextInt();
+        return UUID.randomUUID().toString();
+       //return username+"@"+url+"@"+random.nextInt();
     }
 
 
