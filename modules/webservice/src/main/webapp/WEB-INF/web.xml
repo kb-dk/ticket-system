@@ -73,6 +73,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>AuthChecker</servlet-name>
+
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 

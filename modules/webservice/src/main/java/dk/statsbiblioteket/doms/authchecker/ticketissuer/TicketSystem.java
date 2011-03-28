@@ -2,7 +2,9 @@ package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
 import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
-import java.util.Random;
+import javax.ws.rs.core.MultivaluedMap;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,8 +17,6 @@ public class TicketSystem {
 
 
     private TimeSensitiveCache<String, Ticket> tickets;
-
-    private static final Random random = new Random();
 
     public TicketSystem(long timeToLive) {
         tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, false);//30 sec
@@ -33,22 +33,24 @@ public class TicketSystem {
         return tickets.get(id);
     }
 
+    public Ticket issueTicket(String username, String url, MultivaluedMap<String,String> inProps){
 
-    /**
-     * Issue a new ticket for the given username and url
-     * @param username the username to associate
-     * @param url the url to associate
-     * @return a new ticket with a unique id
-     */
-    public Ticket issueTicket(String username, String url){
+        List<Property> properties = new ArrayList<Property>();
+        for (Map.Entry<String, List<String>> listEntry : inProps.entrySet()) {
+            for (String value : listEntry.getValue()) {
+                properties.add(new Property(listEntry.getKey(),value));
+            }
+        }
         String id = generateID(username,url);
-        Ticket ticket = new Ticket(id, url, username);
+        Ticket ticket = new Ticket(id, url, username,properties);
         tickets.put(id,ticket);
         return ticket;
     }
 
+
+
     private String generateID(String username, String url) {
-       return username+"@"+url+"@"+random.nextInt();
+        return UUID.randomUUID().toString();
     }
 
 
