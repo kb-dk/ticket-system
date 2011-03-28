@@ -2,11 +2,9 @@ package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
 import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
+import javax.ws.rs.core.MultivaluedMap;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,8 +17,6 @@ public class TicketSystem {
 
 
     private TimeSensitiveCache<String, Ticket> tickets;
-
-    private static final Random random = new Random();
 
     public TicketSystem(long timeToLive) {
         tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, false);//30 sec
@@ -37,33 +33,14 @@ public class TicketSystem {
         return tickets.get(id);
     }
 
+    public Ticket issueTicket(String username, String url, MultivaluedMap<String,String> inProps){
 
-    /**
-     * Issue a new ticket for the given username and url
-     * @param username the username to associate
-     * @param url the url to associate
-     * @return a new ticket with a unique id
-     */
-    public Ticket issueTicket(String username, String url){
-        String id = generateID(username,url);
-        Ticket ticket = new Ticket(id, url, username);
-        tickets.put(id,ticket);
-        return ticket;
-    }
-
-    public Ticket issueTicket(String username, String url, String... values){
-
-        List<Property> properties = new ArrayList<Property>(values.length);
-        for (int i = 0; i < values.length; i+=1) {
-            String[] bits = values[i].split("\\@", 2);
-            if (bits.length != 2){
-                continue;
+        List<Property> properties = new ArrayList<Property>();
+        for (Map.Entry<String, List<String>> listEntry : inProps.entrySet()) {
+            for (String value : listEntry.getValue()) {
+                properties.add(new Property(listEntry.getKey(),value));
             }
-            String name = bits[0];
-            String value = bits[1];
-            properties.add(new Property(name,value));
         }
-
         String id = generateID(username,url);
         Ticket ticket = new Ticket(id, url, username,properties);
         tickets.put(id,ticket);
@@ -74,7 +51,6 @@ public class TicketSystem {
 
     private String generateID(String username, String url) {
         return UUID.randomUUID().toString();
-       //return username+"@"+url+"@"+random.nextInt();
     }
 
 

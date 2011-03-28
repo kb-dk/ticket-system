@@ -33,6 +33,8 @@ public class FaultBarrier implements ExceptionMapper<BackendException>{
             return Response.status(ClientResponse.Status.FORBIDDEN).entity(exception.getMessage()+": User not found, failure").build();
         } else if (exception instanceof TicketNotFoundException){
             return Response.status(ClientResponse.Status.GONE).entity(exception.getMessage()+": The ticket could not be found").build();
+        } else if (exception instanceof MissingArgumentException){
+            return Response.status(ClientResponse.Status.BAD_REQUEST).entity(exception.getMessage()+": Missing argument").build();
         }
         log.warn("Caught unknown exception, review how this got here",exception);
         return Response.serverError().entity(exception.getMessage()+

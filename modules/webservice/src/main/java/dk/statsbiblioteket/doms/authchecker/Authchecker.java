@@ -13,6 +13,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 import java.util.*;
 
 /**
@@ -67,70 +71,52 @@ public class Authchecker {
         }
     }
 
-
-    @GET
+    @POST
     @Path("isURLallowedFor/{user}/WithTheseRoles")
-    @Produces("text/xml")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_XML})
     public User isUrlAllowedForThisUserWithTheseRoles(
-            @QueryParam("url")
-            String url,
-            @PathParam("user")
-            String username,
-            @QueryParam("role")
-            List<String> roles) throws
-                                FedoraException,
-                                URLNotFoundException,
-                                InvalidCredentialsException,
-                                ResourceNotFoundException {
+            @PathParam("user") String username,
+            @QueryParam("url") String resource,
+            MultivaluedMap<String,String> roles) throws
+                                                 FedoraException,
+                                                 URLNotFoundException,
+                                                 InvalidCredentialsException,
+                                                 ResourceNotFoundException,
+                                                 MissingArgumentException {
+
         log.trace("Entered isAllowedForThisUserWithTheseRoles with the params"
-                  + "url='"+url+"' and user='"+ username +"' and roles='"+ roles.toString()+"'");
+                  + "url='"+resource+"' and user='"+ username +"'");
 
         /*Generate user information*/
         String password = mkpass(username);
 
+        if (resource == null){
+            throw new MissingArgumentException("url is missing");
+        }
+
+
         log.trace("Password created for user='"+ username +"': '"+password+"'");
         /*Store user information in temp database*/
 
-        Map<String,Roles> fedoraroles = new HashMap<String, Roles>();
-        for (String role : roles) {
-            String[] splittedrole = role.split("@",2);
-            String association;
-            String rolestring;
-            if (splittedrole.length == 2){
-                association = splittedrole[1];
-                rolestring = splittedrole[0];
-            } else {
-                association = "fedoraRole";
-                rolestring = role;
-            }
-            if (association.equalsIgnoreCase("fedoraRole")
-                && rolestring.equalsIgnoreCase("administrator")){
-                log.debug("The user '"+username+"' attempted to acquire administrator rights. Not allowed.");
+        List<Roles> fedoraroles = new ArrayList<Roles>();
+        for (Map.Entry<String, List<String>> stringListEntry : roles.entrySet()) {
+            if (stringListEntry.getKey().equals("fedoraRole")){
                 continue;
             }
-            Roles roleobject = fedoraroles.get(association);//get roles for association
-            if (roleobject == null){
-                //not previously met association
-                List<String> rolelistsingle = new ArrayList<String>();
-                rolelistsingle.add(rolestring);
-                roleobject = new Roles(association,rolelistsingle);
-                fedoraroles.put(association,roleobject);
-            } else {
-                roleobject.getRoles().add(rolestring);
+            if (stringListEntry.getKey().equals("url")){
+                continue;
             }
+            fedoraroles.add(new Roles(stringListEntry.getKey(),stringListEntry.getValue()));
         }
-
-        ArrayList<Roles> roleslist = Collections.list(
-                Collections.enumeration(
-                        fedoraroles.values()));
-        User user = users.addUser(username, password,roleslist);
+        User user = users.addUser(username, password,fedoraroles);
 
         log.trace("User='"+ username +" added to the database");
 
         /*Check auth against Fedora*/
 
-        String pid = fedora.getObjectWithThisURL(url, username, password);
-        log.trace("Found pid='"+pid+"' with the url '"+url+"'");
+        String pid = fedora.getObjectWithThisURL(resource, username, password);
+        log.trace("Found pid='"+pid+"' with the url '"+resource+"'");
 
         log.trace("Attempting to get datastream profile of pid '"+pid+"' with the username '"+ username
                   +"'");
@@ -142,38 +128,52 @@ public class Authchecker {
 
 
     @GET
+    @Path("isURLallowedFor/{user}/WithTheseRoles")
+    @Produces({MediaType.TEXT_XML})
+    public User isUrlAllowedForThisUserWithTheseRoles(
+            @PathParam("user") String username,
+            @QueryParam("url") String resource,
+            @Context UriInfo ui) throws
+                                 FedoraException,
+                                 URLNotFoundException,
+                                 InvalidCredentialsException,
+                                 ResourceNotFoundException, MissingArgumentException {
+        MultivaluedMap<String,String> params = ui.getQueryParameters();
+        return isUrlAllowedForThisUserWithTheseRoles(username,resource,params);
+    }
+
+
+    @GET
     @Path("isURLallowedWithTheseRoles")
-    @Produces("text/xml")
+    @Produces({MediaType.TEXT_XML})
     public User isUrlAllowedWithTheseRoles(
-            @QueryParam("url")
-            String url,
-            @QueryParam("role")
-            List<String> roles) throws
-                                FedoraException,
-                                URLNotFoundException,
-                                InvalidCredentialsException,
-                                ResourceNotFoundException {
-        log.trace("Entered isAllowedWithTheseRoles with the params"
-                  + "url='"+url+"' and roles='"+ roles.toString()+"'");
+            @QueryParam("url") String resource,
+            @Context UriInfo ui) throws
+                                 FedoraException,
+                                 URLNotFoundException,
+                                 InvalidCredentialsException,
+                                 ResourceNotFoundException, MissingArgumentException {
 
         String username = mkUsername();
-        return isUrlAllowedForThisUserWithTheseRoles(url,username,roles);
+        return isUrlAllowedForThisUserWithTheseRoles(username,resource,ui);
 
     }
 
+
+
     private String mkUsername(){
-        return "user"+random.nextInt();
+        return UUID.randomUUID().toString();
     }
 
     private String mkpass(String user) {
-        return user+random.nextInt();
+        return UUID.randomUUID().toString();
     }
 
 
 
     @GET
     @Path("getRolesForUser/{user}/withPassword/{password}")
-    @Produces("text/xml")
+    @Produces({MediaType.TEXT_XML})
     public User getRolesForUser(
             @PathParam("user") String username,
             @PathParam("password") String password)

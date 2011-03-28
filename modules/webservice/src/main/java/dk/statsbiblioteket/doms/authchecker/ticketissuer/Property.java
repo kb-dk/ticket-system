@@ -2,6 +2,7 @@ package dk.statsbiblioteket.doms.authchecker.ticketissuer;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -19,8 +20,9 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class Property {
 
-
+    @XmlElement(nillable = false, required = true)
     private String name;
+    @XmlElement(nillable = false, required = true)
     private String value;
 
 

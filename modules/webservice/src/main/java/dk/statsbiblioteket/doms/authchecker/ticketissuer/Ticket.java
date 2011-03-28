@@ -15,11 +15,13 @@ import java.util.List;
 @XmlRootElement
 public class Ticket{
 
-
+    @XmlElement(nillable = false, required = true)
     private String ID;
 
+    @XmlElement(nillable = false, required = true)
     private String resource;
 
+    @XmlElement(nillable = false, required = true)
     private String username;
 
     List<Property> property;

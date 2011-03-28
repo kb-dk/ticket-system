@@ -1,6 +1,7 @@
 package dk.statsbiblioteket.doms.authchecker;
 
 import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.MissingArgumentException;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.Ticket;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketNotFoundException;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem;
@@ -9,6 +10,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 /**
@@ -54,27 +59,80 @@ public class TicketIssuer {
 
     @GET
     @Path("issueTicket")
+    @Produces({MediaType.TEXT_PLAIN})
     public String issueTicketGet(){
         log.trace("Entered issueTicketGet with a get request");
         return "You must HTTP POST this url, not HTTP GET it";
     }
 
+
     @POST
     @Path("issueTicket")
-    @Produces("text/xml")
-    public Ticket issueTicketWithProperties(
-            @QueryParam("username")
-            String username,
-            @QueryParam("resource")
-            String resource,
-            @QueryParam("property")
-            List<String> properties
+    @Produces({MediaType.TEXT_XML})
+    public Ticket issueTicketQueryParams(@Context UriInfo ui
+    ) throws MissingArgumentException {
+        MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
+        String username = queryParams.getFirst("username");
+        if (username == null){
+            throw new MissingArgumentException("Username is missing");
+        }
+        String resource = queryParams.getFirst("resource");
+        if (resource == null){
+            resource = queryParams.getFirst("url");
+        }
+        if (resource == null){
+            throw new MissingArgumentException("Resource/url is missing");
+        }
+
+        log.trace("Entered issueTicket with params '"
+                  +username
+                  +"' and resource='"
+                  + resource +"'");
+        Ticket ticket = tickets.issueTicket(username, resource, queryParams);
+        log.trace("Issued ticket='"+ticket.getID()+"'");
+        return ticket;
+    }
+
+
+/*
+    @POST
+    @Path("issueTicket")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_XML, MediaType.TEXT_PLAIN})
+    public Ticket issueTicketFormParams(
+            MultivaluedMap<String, String> formParams
+    ){
+        String username = formParams.getFirst("username");
+        String resource = formParams.getFirst("resource");
+        if (resource == null){
+            resource = formParams.getFirst("url");
+        }
+
+        log.trace("Entered issueTicket with params '"
+                  +username
+                  +"' and resource='"
+                  + resource +"'");
+        Ticket ticket = tickets.issueTicket(username, resource, formParams);
+        log.trace("Issued ticket='"+ticket.getID()+"'");
+        return ticket;
+    }
+*/
+
+
+    @POST
+    @Path("issueTicket")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_XML})
+    public Ticket issueTicketFormParams(
+            @QueryParam("username") String username,
+            @QueryParam("resource") String resource,
+            MultivaluedMap<String, String> formParams
     ){
         log.trace("Entered issueTicket with params '"
                   +username
                   +"' and resource='"
                   + resource +"'");
-        Ticket ticket = tickets.issueTicket(username, resource, properties.toArray(new String[0]));
+        Ticket ticket = tickets.issueTicket(username, resource, formParams);
         log.trace("Issued ticket='"+ticket.getID()+"'");
         return ticket;
     }
@@ -83,7 +141,7 @@ public class TicketIssuer {
 
     @GET
     @Path("resolveTicket")
-    @Produces("text/xml")
+    @Produces({MediaType.TEXT_XML})
     public Ticket resolveTicket(
             @QueryParam("ID")
             String ID)
@@ -99,7 +157,7 @@ public class TicketIssuer {
 
     @GET
     @Path("resolveTicket/{ID}")
-    @Produces("text/xml")
+    @Produces({MediaType.TEXT_XML})
     public Ticket resolveTicketAlt(
             @PathParam("ID")
             String ID)
