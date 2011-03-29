@@ -143,6 +143,7 @@ public class Authchecker {
     }
 
 
+
     @GET
     @Path("isURLallowedWithTheseRoles")
     @Produces({MediaType.TEXT_XML})
@@ -156,6 +157,23 @@ public class Authchecker {
 
         String username = mkUsername();
         return isUrlAllowedForThisUserWithTheseRoles(username,resource,ui);
+
+    }
+
+    @POST
+    @Path("isURLallowedWithTheseRoles")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_XML})
+    public User isUrlAllowedWithTheseRoles(
+            @QueryParam("url") String resource,
+            MultivaluedMap<String,String> roles) throws
+                                 FedoraException,
+                                 URLNotFoundException,
+                                 InvalidCredentialsException,
+                                 ResourceNotFoundException, MissingArgumentException {
+
+        String username = mkUsername();
+        return isUrlAllowedForThisUserWithTheseRoles(username,resource,roles);
 
     }
 

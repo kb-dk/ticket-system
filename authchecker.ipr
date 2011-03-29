@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AntConfiguration">
-    <defaultAnt bundledAnt="true" />
-  </component>
   <component name="ArtifactManager">
     <artifact type="war" name="authchecker-service:war">
       <output-path>$PROJECT_DIR$/modules/webservice/target</output-path>
-      <root id="archive" name="authchecker-service-0.0.10-SNAPSHOT.war">
+      <root id="archive" name="authchecker-service-0.0.11-SNAPSHOT.war">
         <element id="artifact" artifact-name="authchecker-service:war exploded" />
       </root>
     </artifact>
     <artifact type="exploded-war" name="authchecker-service:war exploded">
-      <output-path>$PROJECT_DIR$/modules/webservice/target/authchecker-service-0.0.10-SNAPSHOT</output-path>
+      <output-path>$PROJECT_DIR$/modules/webservice/target/authchecker-service-0.0.11-SNAPSHOT</output-path>
       <root id="root">
         <element id="javaee-facet-resources" facet="authchecker-service/web/Web" />
         <element id="directory" name="WEB-INF">
@@ -32,13 +29,26 @@
             <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.3" />
             <element id="library" level="project" name="Maven: asm:asm:3.1" />
             <element id="library" level="project" name="Maven: com.sun.jersey:jersey-client:1.3" />
-            <element id="archive" name="authchecker-authutils-0.0.10-SNAPSHOT.jar">
+            <element id="archive" name="authchecker-authutils-0.0.11-SNAPSHOT.jar">
               <element id="module-output" name="authchecker-authutils" />
             </element>
           </element>
         </element>
       </root>
     </artifact>
+  </component>
+  <component name="CCaseConfig">
+    <option name="checkoutReserved" value="false" />
+    <option name="markExternalChangeAsUpToDate" value="true" />
+    <option name="checkInUseHijack" value="true" />
+    <option name="useUcmModel" value="true" />
+    <option name="synchOutside" value="false" />
+    <option name="isHistoryResticted" value="true" />
+    <option name="useIdenticalSwitch" value="true" />
+    <option name="synchActivitiesOnRefresh" value="true" />
+    <option name="lastScr" value="" />
+    <option name="scrTextFileName" value="" />
+    <option name="historyRevisionsNumber" value="4" />
   </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
@@ -296,9 +306,6 @@
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
-  </component>
-  <component name="ProjectResources">
-    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
