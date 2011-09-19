@@ -55,8 +55,8 @@ public class Authchecker {
                     ttl = Long.parseLong(ttlString);
                 } catch (NumberFormatException e) {
                     log.warn("Could not parse the  '"+ ADMINUSER_TTL_PROP
-                             +"' as a long, using default 30 sec timetolive",e);
-                    ttl = 30*1000;
+                             +"' as a long, using default 2 days timetolive",e);
+                    ttl = 48*60*60*1000;
                 }
                 adminUsers = new UserDatabase(ttl);
             }

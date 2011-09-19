@@ -61,6 +61,20 @@
     </context-param>
 
 
+    <context-param>
+        <description>
+            The time temp admin users should live before being garbage collected.
+            Unit is milliseconds.
+        </description>
+        <param-name>
+            dk.statsbiblioteket.doms.authchecker.adminusers.timeToLive
+        </param-name>
+        <param-value>
+            172800000
+        </param-value>
+    </context-param>
+
+
 
     <servlet>
         <servlet-name>AuthChecker</servlet-name>
