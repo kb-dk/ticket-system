@@ -19,9 +19,10 @@
 
 
     <modules>
-        <module>modules/authutils</module>
-        <module>modules/fedoralogin</module>
-        <module>modules/webservice</module>
+        <module>authchecker-authutils</module>
+        <module>authchecker-fedoralogin</module>
+        <module>authchecker-service</module>
+        <module>authchecker-lib</module>
     </modules>
 
     <dependencyManagement>
