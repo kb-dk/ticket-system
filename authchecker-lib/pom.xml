@@ -24,6 +24,15 @@
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+        </dependency>
+                <dependency>
+            <groupId>dk.statsbiblioteket.doms.domsutil</groupId>
+            <artifactId>domsutil-bundle</artifactId>
+            <type>pom</type>
+        </dependency>
 
     </dependencies>
 </project>
