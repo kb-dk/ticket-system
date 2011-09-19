@@ -92,19 +92,20 @@ public class Authchecker {
 
     @POST
     @Path("createAdminUser/{user}/WithTheseRoles")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces({MediaType.TEXT_XML})
     public User createAdminUserWithTheseRoles(
             @PathParam("user") String username,
-            MultivaluedMap<String,String> roles) throws
+            @Context UriInfo ui) throws
                                                  FedoraException,
                                                  URLNotFoundException,
                                                  InvalidCredentialsException,
                                                  ResourceNotFoundException,
                                                  MissingArgumentException {
 
+
         log.trace("Entered createUserWithTheseRoles with the params"
                   + "'user='"+ username +"'");
+        MultivaluedMap<String, String> roles = ui.getQueryParameters();
 
         /*Generate user information*/
         String password = mkpass(username);

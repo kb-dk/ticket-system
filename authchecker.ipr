@@ -31,7 +31,9 @@
             <element id="archive" name="authchecker-lib-0.0.11-SNAPSHOT.jar">
               <element id="module-output" name="authchecker-lib" />
             </element>
-            <element id="library" level="project" name="Maven: dk.statsbiblioteket.doms.authchecker:authchecker-authutils:0.0.11-SNAPSHOT" />
+            <element id="archive" name="authchecker-authutils-0.0.11-SNAPSHOT.jar">
+              <element id="module-output" name="authchecker-authutils" />
+            </element>
             <element id="library" level="project" name="Maven: com.sun.jersey:jersey-client:1.3" />
           </element>
         </element>
@@ -306,7 +308,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/authchecker.iml" filepath="$PROJECT_DIR$/authchecker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/authchecker-authutils/authchecker-authutils.iml" filepath="$PROJECT_DIR$/authchecker-authutils/authchecker-authutils.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/authutils/authchecker-authutils.iml" filepath="$PROJECT_DIR$/modules/authutils/authchecker-authutils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/authchecker-fedoralogin/authchecker-fedoralogin.iml" filepath="$PROJECT_DIR$/authchecker-fedoralogin/authchecker-fedoralogin.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/fedoralogin/authchecker-fedoralogin.iml" filepath="$PROJECT_DIR$/modules/fedoralogin/authchecker-fedoralogin.iml" />
       <module fileurl="file://$PROJECT_DIR$/authchecker-lib/authchecker-lib.iml" filepath="$PROJECT_DIR$/authchecker-lib/authchecker-lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/webservice/authchecker-service.iml" filepath="$PROJECT_DIR$/modules/webservice/authchecker-service.iml" />
@@ -662,17 +666,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: dk.statsbiblioteket.doms.authchecker:authchecker-authutils:0.0.11-SNAPSHOT">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/dk/statsbiblioteket/doms/authchecker/authchecker-authutils/0.0.11-SNAPSHOT/authchecker-authutils-0.0.11-SNAPSHOT.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/dk/statsbiblioteket/doms/authchecker/authchecker-authutils/0.0.11-SNAPSHOT/authchecker-authutils-0.0.11-SNAPSHOT-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/dk/statsbiblioteket/doms/authchecker/authchecker-authutils/0.0.11-SNAPSHOT/authchecker-authutils-0.0.11-SNAPSHOT-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: dk.statsbiblioteket.doms.domsutil.surveyable:domsutil-logappender:0.0.20">
