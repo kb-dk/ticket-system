@@ -34,6 +34,7 @@ public class UserDatabase{
     public User addUser(String username, String password, List<Roles> fedoraroles) {
         String id = username;
         User user = new User(username,password,id,fedoraroles);
+        //TODO ensure that the cache overwrites old entries...
         cache.put(id, user);
         return user;
     }
