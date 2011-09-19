@@ -31,9 +31,12 @@ public class Authchecker {
 
     private static UserDatabase users;
 
+    private static UserDatabase adminUsers;
+
     private static final Object lock = new Object();
 
     private static final String USER_TTL_PROP ="dk.statsbiblioteket.doms.authchecker.users.timeToLive";
+    private static final String ADMINUSER_TTL_PROP ="dk.statsbiblioteket.doms.authchecker.adminusers.timeToLive";
     private Log log = LogFactory.getLog(Authchecker.class);
     private String fedoralocation;
     private FedoraConnector fedora;
@@ -43,6 +46,20 @@ public class Authchecker {
     public Authchecker() throws BackendException {
         log.trace("Created a new authchecker webservice object");
         synchronized (lock){
+            if (users == null){
+                long ttl;
+                try {
+                    String ttlString = ConfigCollection.getProperties()
+                            .getProperty(ADMINUSER_TTL_PROP,""+48*60*60*1000);
+                    log.trace("Read '"+ADMINUSER_TTL_PROP+"' property as '"+ttlString+"'");
+                    ttl = Long.parseLong(ttlString);
+                } catch (NumberFormatException e) {
+                    log.warn("Could not parse the  '"+ ADMINUSER_TTL_PROP
+                             +"' as a long, using default 30 sec timetolive",e);
+                    ttl = 30*1000;
+                }
+                adminUsers = new UserDatabase(ttl);
+            }
             if (users == null){
                 long ttl;
                 try {
@@ -57,6 +74,8 @@ public class Authchecker {
                 }
                 users = new UserDatabase(ttl);
             }
+
+
             if (fedoralocation == null){
                 fedoralocation = ConfigCollection.getProperties().getProperty(
                         "dk.statsbiblioteket.doms.authchecker.fedoralocation");
@@ -70,6 +89,47 @@ public class Authchecker {
 
         }
     }
+
+    @POST
+    @Path("createAdminUser/{user}/WithTheseRoles")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces({MediaType.TEXT_XML})
+    public User createAdminUserWithTheseRoles(
+            @PathParam("user") String username,
+            MultivaluedMap<String,String> roles) throws
+                                                 FedoraException,
+                                                 URLNotFoundException,
+                                                 InvalidCredentialsException,
+                                                 ResourceNotFoundException,
+                                                 MissingArgumentException {
+
+        log.trace("Entered createUserWithTheseRoles with the params"
+                  + "'user='"+ username +"'");
+
+        /*Generate user information*/
+        String password = mkpass(username);
+
+        log.trace("Password created for user='"+ username +"': '"+password+"'");
+        /*Store user information in temp database*/
+
+        List<Roles> fedoraroles = new ArrayList<Roles>();
+        for (Map.Entry<String, List<String>> stringListEntry : roles.entrySet()) {
+            if (stringListEntry.getKey().equals("fedoraRole")){
+                continue;
+            }
+            if (stringListEntry.getKey().equals("url")){
+                continue;
+            }
+            fedoraroles.add(new Roles(stringListEntry.getKey(),stringListEntry.getValue()));
+        }
+        User user = adminUsers.addUser(username, password,fedoraroles);
+
+        log.trace("User='"+ username +" added to the database");
+
+        log.trace("Success, returning user='"+ username +"' password");
+        return user;
+    }
+
 
     @POST
     @Path("isURLallowedFor/{user}/WithTheseRoles")
@@ -167,10 +227,10 @@ public class Authchecker {
     public User isUrlAllowedWithTheseRoles(
             @QueryParam("url") String resource,
             MultivaluedMap<String,String> roles) throws
-                                 FedoraException,
-                                 URLNotFoundException,
-                                 InvalidCredentialsException,
-                                 ResourceNotFoundException, MissingArgumentException {
+                                                 FedoraException,
+                                                 URLNotFoundException,
+                                                 InvalidCredentialsException,
+                                                 ResourceNotFoundException, MissingArgumentException {
 
         String username = mkUsername();
         return isUrlAllowedForThisUserWithTheseRoles(username,resource,roles);
@@ -205,8 +265,14 @@ public class Authchecker {
             log.trace("User='"+username+"' found and password matches");
             return user;
         } else{
-            log.debug("User='"+username+"' not found, or password does not match");
-            throw new UserNotFoundException("Username '"+username+"' with password '"+password+"' not found in user database");
+            user = adminUsers.getUser(username);
+            if (user != null && user.getPassword().equals(password)){
+                log.trace("User='"+username+"' found and password matches");
+                return user;
+            } else {
+                log.debug("User='"+username+"' not found, or password does not match");
+                throw new UserNotFoundException("Username '"+username+"' with password '"+password+"' not found in user database");
+            }
         }
     }
 
