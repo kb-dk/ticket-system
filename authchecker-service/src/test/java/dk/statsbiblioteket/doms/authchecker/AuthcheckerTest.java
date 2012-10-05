@@ -73,6 +73,8 @@ public class AuthcheckerTest extends TestCase {
         assertEquals("x", user.getUsername());
         List<Roles> roles = user.getAttributes();
         assertEquals(2, roles.size());
+        //Test result. Note: this assumes order is preserved, although this is not required. If test fails, please fix
+        //to ignore order.
         assertEquals("hello", roles.get(0).getAssociation());
         assertEquals(1, roles.get(0).getRoles().size());
         assertEquals("world", roles.get(0).getRoles().get(0));
