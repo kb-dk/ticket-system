@@ -1,0 +1,11 @@
+0.0.12:
+Add methods for checking access using URL. Update dependency on jersey to newer version.
+
+e889358 2012-10-10 11:07:35 +0200       Kåre Fiedler Christiansen       With jersey 1.11 dependency should be on servlet
+d406495 2012-10-05 12:05:31 +0200       Kåre Fiedler Christiansen       Add comment about preserving order
+b0960a5 2012-09-27 21:50:15 +0200       Kåre Fiedler Christiansen       Add and test Authchecker methods for checking access to DOM
+3e00a1e 2012-09-26 09:35:09 +0200       Kåre Fiedler Christiansen       Remove and ignore IntelliJ IDEA files
+1042fe4 2012-08-24 15:09:08 +0200       Adam Tulinius   Add basic .gitignore
+30f6991 2012-08-24 14:09:59 +0200       Adam Tulinius   DOMS-164 - migrate projects to git: Update pom.xml to reflect the new scm p
+7c30db9 2011-12-07 14:17:47 +0000       Asger Askov Blekinge    new version of doms project
+
