@@ -5,12 +5,12 @@
     <parent>
         <groupId>dk.statsbiblioteket.doms.authchecker</groupId>
         <artifactId>authchecker</artifactId>
-        <version>0.0.12</version>
+        <version>0.0.13-SNAPSHOT</version>
     </parent>
 
     <groupId>dk.statsbiblioteket.doms.authchecker</groupId>
     <artifactId>authchecker-lib</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
