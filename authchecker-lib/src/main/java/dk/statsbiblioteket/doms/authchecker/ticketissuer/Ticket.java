@@ -19,31 +19,41 @@ public class Ticket{
     private String ID;
 
     @XmlElement(nillable = false, required = true)
-    private String resource;
+    private ContentResource resource;
+    //TODO should this be list?
+
 
     @XmlElement(nillable = false, required = true)
     private String username;
+
+
+    /*TODO Serialization??*/
+    private String[] userRoles;
 
     List<Property> property;
 
     public Ticket() {
     }
 
-    public Ticket(String ID, String resource, String username) {
+    public Ticket(String ID, ContentResource resource, String username, String... userRoles) {
         this.ID = ID;
         this.resource = resource;
+
+
         this.username = username;
+        this.userRoles = userRoles;
         property = new ArrayList<Property>();
     }
 
-    public Ticket(String ID, String resource, String username, List<Property> property) {
+    public Ticket(String ID, ContentResource resource, String username, List<Property> property, String... userRoles) {
         this.ID = ID;
         this.resource = resource;
         this.username = username;
+        this.userRoles = userRoles;
         this.property = property;
     }
 
-    public String getResource() {
+    public ContentResource getResource() {
         return resource;
     }
 

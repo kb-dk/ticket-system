@@ -33,7 +33,10 @@ public class TicketSystem {
         return tickets.get(id);
     }
 
-    public Ticket issueTicket(String username, String url, MultivaluedMap<String,String> inProps){
+    @Deprecated
+    public Ticket issueTicket(String username,
+                              String url,
+                              MultivaluedMap<String,String> inProps){
 
         List<Property> properties = new ArrayList<Property>();
         for (Map.Entry<String, List<String>> listEntry : inProps.entrySet()) {
@@ -42,7 +45,7 @@ public class TicketSystem {
             }
         }
         String id = generateID(username,url);
-        Ticket ticket = new Ticket(id, url, username,properties);
+        Ticket ticket = new Ticket(id, new ContentResource(url,null), username,properties,null);
         tickets.put(id,ticket);
         return ticket;
     }
@@ -51,6 +54,12 @@ public class TicketSystem {
 
     private String generateID(String username, String url) {
         return UUID.randomUUID().toString();
+    }
+
+    public Map<String,Ticket> issueTickets(List<String> uuids,
+                                           List<String> userAttributes,
+                                           String type){
+        return null;
     }
 
 

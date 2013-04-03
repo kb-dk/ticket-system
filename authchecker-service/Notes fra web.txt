@@ -1,0 +1,22 @@
+Kald til Thomas
+
+List of UUID
+List of User Attributes
+Type
+
+Giver
+List of UUID
+
+
+
+Interface til ticket issuing
+
+Input
+List of UUID
+List of User Attributes
+Type
+
+
+Map, List
+  UUID -> Ticket
+

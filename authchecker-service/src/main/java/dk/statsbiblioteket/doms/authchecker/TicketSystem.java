@@ -2,9 +2,9 @@ package dk.statsbiblioteket.doms.authchecker;
 
 import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
 import dk.statsbiblioteket.doms.authchecker.exceptions.MissingArgumentException;
+import dk.statsbiblioteket.doms.authchecker.ticketissuer.Authorization;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.Ticket;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketNotFoundException;
-import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem;
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,20 +23,21 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Path("/tickets/")
-public class TicketIssuer {
+public class TicketSystem {
 
-    private static TicketSystem tickets;
+    private static dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem tickets;
+    private static Authorization authorization;
 
     private static final Object lock = new Object();
 
     private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.doms.authchecker.tickets.timeToLive";
 
-    private Log log = LogFactory.getLog(TicketIssuer.class);
+    private Log log = LogFactory.getLog(TicketSystem.class);
 
 
 
-    public TicketIssuer() throws BackendException {
-        log.trace("Created a new TicketIssuer webservice object");
+    public TicketSystem() throws BackendException {
+        log.trace("Created a new TicketSystem webservice object");
         synchronized (lock){
             if (tickets == null){
                 long ttl;
@@ -51,11 +51,16 @@ public class TicketIssuer {
                              +"' as a long, using default 30 sec timetolive",e);
                     ttl = 30*1000;
                 }
-                tickets = new TicketSystem(ttl);
+                tickets = new dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem(ttl);
 
+                String authService = ConfigCollection.getProperties().getProperty("TICKET_AUTH_SERVICE");
+                authorization = new Authorization(authService);
             }
         }
     }
+
+
+    /*Issuing of tickets*/
 
     @GET
     @Path("issueTicket")
@@ -69,6 +74,7 @@ public class TicketIssuer {
     @POST
     @Path("issueTicket")
     @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
+    @Deprecated
     public Ticket issueTicketQueryParams(@Context UriInfo ui
     ) throws MissingArgumentException {
         MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
@@ -94,35 +100,11 @@ public class TicketIssuer {
     }
 
 
-/*
-    @POST
-    @Path("issueTicket")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces({MediaType.TEXT_XML, MediaType.TEXT_PLAIN})
-    public Ticket issueTicketFormParams(
-            MultivaluedMap<String, String> formParams
-    ){
-        String username = formParams.getFirst("username");
-        String resource = formParams.getFirst("resource");
-        if (resource == null){
-            resource = formParams.getFirst("url");
-        }
-
-        log.trace("Entered issueTicket with params '"
-                  +username
-                  +"' and resource='"
-                  + resource +"'");
-        Ticket ticket = tickets.issueTicket(username, resource, formParams);
-        log.trace("Issued ticket='"+ticket.getID()+"'");
-        return ticket;
-    }
-*/
-
-
     @POST
     @Path("issueTicket")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
+    @Deprecated
     public Ticket issueTicketFormParams(
             @QueryParam("username") String username,
             @QueryParam("resource") String resource,
@@ -138,6 +120,8 @@ public class TicketIssuer {
     }
 
 
+
+    /*Resolving of tickets*/
 
     @GET
     @Path("resolveTicket")
@@ -164,6 +148,8 @@ public class TicketIssuer {
             throws TicketNotFoundException {
         return resolveTicket(ID);
     }
+
+
 
 
 }

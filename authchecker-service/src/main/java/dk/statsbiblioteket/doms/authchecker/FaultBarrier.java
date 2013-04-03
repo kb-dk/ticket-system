@@ -23,22 +23,14 @@ public class FaultBarrier implements ExceptionMapper<BackendException>{
     private Log log = LogFactory.getLog(FaultBarrier.class);
 
     public Response toResponse(BackendException exception) {
-        if (exception instanceof InvalidCredentialsException){
-            return Response.status(ClientResponse.Status.FORBIDDEN).entity(exception.getMessage()+": Wrong credentials supplied, failure").build();
-        } else if (exception instanceof URLNotFoundException || exception instanceof ResourceNotFoundException){
-            return Response.status(ClientResponse.Status.NOT_FOUND).entity(exception.getMessage() + ": Resource not found, failure").build();
-        } else if (exception instanceof FedoraException){
-            return Response.serverError().entity(exception.getMessage()+": Fedora error, failure").build();
-        } else if (exception instanceof UserNotFoundException){
-            return Response.status(ClientResponse.Status.FORBIDDEN).entity(exception.getMessage()+": User not found, failure").build();
-        } else if (exception instanceof TicketNotFoundException){
+        if (exception instanceof TicketNotFoundException){
             return Response.status(ClientResponse.Status.GONE).entity(exception.getMessage()+": The ticket could not be found").build();
         } else if (exception instanceof MissingArgumentException){
             return Response.status(ClientResponse.Status.BAD_REQUEST).entity(exception.getMessage()+": Missing argument").build();
         }
         log.warn("Caught unknown exception, review how this got here",exception);
         return Response.serverError().entity(exception.getMessage()+
-                                             ": Generic failure, see server logs.").build();
+                ": Generic failure, see server logs.").build();
     }
 
 }
