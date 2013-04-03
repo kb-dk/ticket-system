@@ -4,12 +4,11 @@
 
     <parent>
         <groupId>dk.statsbiblioteket.doms.authchecker</groupId>
-        <artifactId>authchecker</artifactId>
+        <artifactId>ticket-system</artifactId>
         <version>0.0.13-SNAPSHOT</version>
     </parent>
 
-    <groupId>dk.statsbiblioteket.doms.authchecker</groupId>
-    <artifactId>authchecker-lib</artifactId>
+    <artifactId>ticket-system-libs</artifactId>
     <version>0.0.13-SNAPSHOT</version>
 
     <dependencies>
