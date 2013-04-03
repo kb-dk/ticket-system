@@ -59,7 +59,7 @@ public class TicketIssuer {
 
     @GET
     @Path("issueTicket")
-    @Produces({MediaType.TEXT_PLAIN})
+    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
     public String issueTicketGet(){
         log.trace("Entered issueTicketGet with a get request");
         return "You must HTTP POST this url, not HTTP GET it";
@@ -68,7 +68,7 @@ public class TicketIssuer {
 
     @POST
     @Path("issueTicket")
-    @Produces({MediaType.TEXT_XML})
+    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
     public Ticket issueTicketQueryParams(@Context UriInfo ui
     ) throws MissingArgumentException {
         MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
@@ -122,7 +122,7 @@ public class TicketIssuer {
     @POST
     @Path("issueTicket")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces({MediaType.TEXT_XML})
+    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
     public Ticket issueTicketFormParams(
             @QueryParam("username") String username,
             @QueryParam("resource") String resource,
@@ -141,7 +141,7 @@ public class TicketIssuer {
 
     @GET
     @Path("resolveTicket")
-    @Produces({MediaType.TEXT_XML})
+    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
     public Ticket resolveTicket(
             @QueryParam("ID")
             String ID)
@@ -157,7 +157,7 @@ public class TicketIssuer {
 
     @GET
     @Path("resolveTicket/{ID}")
-    @Produces({MediaType.TEXT_XML})
+    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
     public Ticket resolveTicketAlt(
             @PathParam("ID")
             String ID)
