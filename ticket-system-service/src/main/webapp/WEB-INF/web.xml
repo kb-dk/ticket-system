@@ -25,14 +25,6 @@
         <servlet-name>AuthChecker</servlet-name>
     </filter-mapping>-->
 
-    <context-param>
-        <param-name>
-            dk.statsbiblioteket.doms.authchecker.fedoralocation
-        </param-name>
-        <param-value>
-            http://localhost:8080/fedora
-        </param-value>
-    </context-param>
 
     <context-param>
         <description>
@@ -40,20 +32,7 @@
             is milliseconds
         </description>
         <param-name>
-            dk.statsbiblioteket.doms.authchecker.tickets.timeToLive
-        </param-name>
-        <param-value>
-            1200000
-        </param-value>
-    </context-param>
-
-    <context-param>
-        <description>
-            The time temp usernames should live before being garbage collected.
-            Unit is milliseconds.
-        </description>
-        <param-name>
-            dk.statsbiblioteket.doms.authchecker.users.timeToLive
+            dk.statsbiblioteket.ticket-system.timeToLive
         </param-name>
         <param-value>
             1200000
@@ -62,17 +41,15 @@
 
 
     <context-param>
-        <description>
-            The time temp admin users should live before being garbage collected.
-            Unit is milliseconds.
-        </description>
+
         <param-name>
-            dk.statsbiblioteket.doms.authchecker.adminusers.timeToLive
+            dk.statsbiblioteket.ticket-system.auth-checker
         </param-name>
         <param-value>
-            172800000
+            http://devel06:9612/licensemodule/
         </param-value>
     </context-param>
+
 
 
 

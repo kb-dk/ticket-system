@@ -2,7 +2,7 @@ package dk.statsbiblioteket.doms.authchecker;
 
 import com.sun.jersey.api.client.ClientResponse;
 import dk.statsbiblioteket.doms.authchecker.exceptions.*;
-import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketNotFoundException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.TicketNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

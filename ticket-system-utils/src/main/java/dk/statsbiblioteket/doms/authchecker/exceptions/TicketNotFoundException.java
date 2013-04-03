@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.authchecker.ticketissuer;
+package dk.statsbiblioteket.doms.authchecker.exceptions;
 
 import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
 

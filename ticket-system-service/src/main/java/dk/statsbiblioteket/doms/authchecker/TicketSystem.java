@@ -4,7 +4,7 @@ import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
 import dk.statsbiblioteket.doms.authchecker.exceptions.MissingArgumentException;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.Authorization;
 import dk.statsbiblioteket.doms.authchecker.ticketissuer.Ticket;
-import dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketNotFoundException;
+import dk.statsbiblioteket.doms.authchecker.exceptions.TicketNotFoundException;
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,9 +30,10 @@ public class TicketSystem {
 
     private static final Object lock = new Object();
 
-    private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.doms.authchecker.tickets.timeToLive";
+    private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.ticket-system.timeToLive";
+    private static final String TICKET_AUTH_SERVICE = "dk.statsbiblioteket.ticket-system.auth-checker";
 
-    private Log log = LogFactory.getLog(TicketSystem.class);
+    private final Log log = LogFactory.getLog(TicketSystem.class);
 
 
 
@@ -53,7 +54,7 @@ public class TicketSystem {
                 }
                 tickets = new dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem(ttl);
 
-                String authService = ConfigCollection.getProperties().getProperty("TICKET_AUTH_SERVICE");
+                String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
                 authorization = new Authorization(authService);
             }
         }
