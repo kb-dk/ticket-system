@@ -20,6 +20,7 @@
 
     <modules>
         <module>authchecker-authutils</module>
+        <module>authchecker-fedoralogin</module>
         <module>authchecker-service</module>
         <module>authchecker-lib</module>
     </modules>
