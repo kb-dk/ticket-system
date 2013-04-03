@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>${parent.artifactId}-lib</artifactId>
+            <artifactId>ticket-system-libs</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>authchecker-authutils</artifactId>
+            <artifactId>ticket-system-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

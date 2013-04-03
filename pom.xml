@@ -7,7 +7,7 @@
     </parent>
 
     <groupId>dk.statsbiblioteket.doms.authchecker</groupId>
-    <artifactId>sb-ticket-system</artifactId>
+    <artifactId>ticket-system</artifactId>
     <version>0.0.13-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -19,9 +19,9 @@
 
 
     <modules>
-        <module>authchecker-authutils</module>
-        <module>authchecker-service</module>
-        <module>authchecker-lib</module>
+        <module>ticket-system-utils</module>
+        <module>ticket-system-service</module>
+        <module>ticket-system-libs</module>
     </modules>
 
     <dependencyManagement>
