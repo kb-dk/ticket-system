@@ -121,9 +121,7 @@ public class TicketSystemService {
         HashMap<String, String> ticketMap = new HashMap<String, String>();
 
         Ticket ticket = tickets.issueTicket(Arrays.asList(id), type, userIdentifier, userAttributes);
-        log.trace("Issued ticket='"+ticket.getID()+"'");
         ticketMap.put(id, ticket.getID());
-
         log.debug("Issued ticket: " + ticket);
 
         return ticketMap;
