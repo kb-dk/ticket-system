@@ -3,13 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>dk.statsbiblioteket.ticket-system</groupId>
+        <groupId>dk.statsbiblioteket.medieplatform.ticketsystem</groupId>
         <artifactId>ticket-system-parent</artifactId>
-        <version>0.0.13-SNAPSHOT</version>
+        <version>0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>ticket-system-libs</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -25,11 +24,5 @@
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>dk.statsbiblioteket.doms.domsutil</groupId>
-            <artifactId>domsutil-bundle</artifactId>
-            <type>pom</type>
-        </dependency>
-
     </dependencies>
 </project>

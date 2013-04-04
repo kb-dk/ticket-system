@@ -1,9 +1,6 @@
-package dk.statsbiblioteket.ticketsystem;
+package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 import com.sun.jersey.api.client.ClientResponse;
-import dk.statsbiblioteket.ticketsystem.TicketNotFoundException;
-import dk.statsbiblioteket.ticketsystem.BackendException;
-import dk.statsbiblioteket.ticketsystem.MissingArgumentException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

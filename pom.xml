@@ -6,9 +6,9 @@
         <version>12</version>
     </parent>
 
-    <groupId>dk.statsbiblioteket.ticket-system</groupId>
+    <groupId>dk.statsbiblioteket.medieplatform.ticketsystem</groupId>
     <artifactId>ticket-system-parent</artifactId>
-    <version>0.0.13-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
@@ -24,14 +24,57 @@
         <module>ticket-system-libs</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <debug>true</debug>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
+
+    </build>
+
+
     <dependencyManagement>
 
         <dependencies>
             <dependency>
                 <groupId>dk.statsbiblioteket.doms.domsutil</groupId>
-                <artifactId>domsutil-bundle</artifactId>
+                <artifactId>domsutil-webservice-common</artifactId>
                 <version>0.0.20</version>
-                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>javax.ws.rs</groupId>

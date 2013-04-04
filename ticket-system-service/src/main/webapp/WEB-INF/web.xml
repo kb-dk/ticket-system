@@ -3,27 +3,12 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
     <display-name>AuthChecker</display-name>
-    <description></description>
 
     <listener>
         <listener-class>
             dk.statsbiblioteket.doms.webservices.configuration.ConfigContextListener
         </listener-class>
     </listener>
-    <!--
-    <filter>
-        <display-name>AuthFilter</display-name>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>dk.statsbiblioteket.doms.webservices.AuthFilter</filter-class>
-        <init-param>
-            <param-name>Realm name</param-name>
-            <param-value>AuthChecker</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <servlet-name>AuthChecker</servlet-name>
-    </filter-mapping>-->
 
 
     <context-param>
@@ -54,58 +39,21 @@
 
 
     <servlet>
-        <servlet-name>AuthChecker</servlet-name>
+        <servlet-name>TicketSystem</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
         </servlet-class>
         <init-param>
             <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>dk.statsbiblioteket.doms.authchecker</param-value>
+            <param-value>dk.statsbiblioteket.medieplatform.ticketsystem</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AuthChecker</servlet-name>
-
+        <servlet-name>TicketSystem</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
 
-    <!--This is the surveyable servlet, the one that initialialises the surveyable classes-->
-    <servlet>
-        <servlet-name>WSServletSurveyable</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
-        </servlet-class>
-        <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>dk.statsbiblioteket.doms.domsutil.surveyable</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WSServletSurveyable</servlet-name>
-        <url-pattern>/surveyable/*</url-pattern>
-    </servlet-mapping>
-    <context-param>
-        <description>The class that will be exposed for surveillance
-        </description>
-        <param-name>
-            dk.statsbiblioteket.doms.domsutil.surveyable.surveyables
-        </param-name>
-        <param-value>
-            dk.statsbiblioteket.doms.domsutil.surveyable.RunningSurveyable;
-            dk.statsbiblioteket.doms.domsutil.surveillance.logappender.CachingLogRegistry
-        </param-value>
-    </context-param>
 
-
-    <context-param>
-        <description>The name of the service for surveillance purposes
-        </description>
-        <param-name>
-                dk.statsbiblioteket.doms.surveillance.logappender.LoggerName
-        </param-name>
-        <param-value>
-            DomsAuthchecker
-        </param-value>
-    </context-param>
 
     <!--This servlet is used only to load on startup, and configure the logging framework.-->
     <servlet>
@@ -118,14 +66,18 @@
                 dk.statsbiblioteket.doms.webservices.logging.Log4JInitServlet.log4jConfigurationPropertyKey
             </param-name>
             <param-value>
-                dk.statsbiblioteket.doms.authchecker.log4jconfig
+                dk.statsbiblioteket.medieplatform.ticketsystem.log4jconfig
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>Log4jInitialisation</servlet-name>
+        <url-pattern>/log4jGoAway/</url-pattern>
+    </servlet-mapping>
     <context-param>
         <description>The location of the log4j config file</description>
-        <param-name>dk.statsbiblioteket.doms.authchecker.log4jconfig</param-name>
+        <param-name>dk.statsbiblioteket.medieplatform.ticketsystem.log4jconfig</param-name>
         <param-value>WEB-INF/log4jproperties.xml</param-value>
     </context-param>
 

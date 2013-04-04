@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.ticketsystem;
+package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 /**
  * Created with IntelliJ IDEA.

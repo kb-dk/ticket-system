@@ -1,13 +1,17 @@
-package dk.statsbiblioteket.ticketsystem;
+package dk.statsbiblioteket.medieplatform.ticketsystem;
 
-import dk.statsbiblioteket.ticketsystem.BackendException;
-import dk.statsbiblioteket.ticketsystem.MissingArgumentException;
-import dk.statsbiblioteket.ticketsystem.TicketNotFoundException;
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.ws.rs.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -21,9 +25,9 @@ import javax.ws.rs.core.UriInfo;
  * To change this template use File | Settings | File Templates.
  */
 @Path("/tickets/")
-public class TicketSystem {
+public class TicketSystemService {
 
-    private static dk.statsbiblioteket.ticketsystem.TicketSystem tickets;
+    private static TicketSystem tickets;
     private static Authorization authorization;
 
     private static final Object lock = new Object();
@@ -31,11 +35,11 @@ public class TicketSystem {
     private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.ticket-system.timeToLive";
     private static final String TICKET_AUTH_SERVICE = "dk.statsbiblioteket.ticket-system.auth-checker";
 
-    private final Log log = LogFactory.getLog(TicketSystem.class);
+    private final Log log = LogFactory.getLog(TicketSystemService.class);
 
 
 
-    public TicketSystem() throws BackendException {
+    public TicketSystemService() throws BackendException {
         log.trace("Created a new TicketSystem webservice object");
         synchronized (lock){
             if (tickets == null){
@@ -50,7 +54,7 @@ public class TicketSystem {
                              +"' as a long, using default 30 sec timetolive",e);
                     ttl = 30*1000;
                 }
-                tickets = new dk.statsbiblioteket.ticketsystem.TicketSystem(ttl);
+                tickets = new TicketSystem(ttl);
 
                 String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
                 authorization = new Authorization(authService);
