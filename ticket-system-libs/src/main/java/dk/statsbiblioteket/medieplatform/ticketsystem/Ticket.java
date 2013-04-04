@@ -2,71 +2,83 @@ package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ticket", propOrder = {
         "ID",
-        "resource",
-        "username",
-        "property"
+        "userIdentifier",
+        "userAttributes",
+        "type",
+        "resources",
+        "properties"
 })
 @XmlRootElement
 public class Ticket{
-
     @XmlElement(nillable = false, required = true)
     private String ID;
 
     @XmlElement(nillable = false, required = true)
-    private ContentResource resource;
-    //TODO should this be list?
-
+    private String type;
 
     @XmlElement(nillable = false, required = true)
-    private String username;
+    private String userIdentifier;
 
+    @XmlElement(nillable = false, required = true)
+    private List<String> resources;
 
-    /*TODO Serialization??*/
-    private String[] userRoles;
+    @XmlElement(nillable = false, required = true)
+    private Map<String, List<String>> userAttributes;
 
-    List<Property> property;
+    @XmlElement(nillable = false, required = false)
+    List<Property> properties;
 
     public Ticket() {
     }
 
-    public Ticket(String ID, ContentResource resource, String username, String... userRoles) {
-        this.ID = ID;
-        this.resource = resource;
-
-
-        this.username = username;
-        this.userRoles = userRoles;
-        property = new ArrayList<Property>();
+    public Ticket(String type, String userIdentifier, List<String> resources, Map<String, List<String>> userAttributes) {
+        this.ID = UUID.randomUUID().toString();
+        this.type = type;
+        this.userIdentifier = userIdentifier;
+        this.resources = resources;
+        this.userAttributes = userAttributes;
     }
 
-    public Ticket(String ID, ContentResource resource, String username, List<Property> property, String... userRoles) {
-        this.ID = ID;
-        this.resource = resource;
-        this.username = username;
-        this.userRoles = userRoles;
-        this.property = property;
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ID='" + ID + '\'' +
+                ", type='" + type + '\'' +
+                ", userIdentifier='" + userIdentifier + '\'' +
+                ", resources=" + resources +
+                ", userAttributes=" + userAttributes +
+                ", properties=" + properties +
+                '}';
     }
 
-    public ContentResource getResource() {
-        return resource;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-   
     public String getID() {
         return ID;
     }
 
-    public List<Property> getProperty() {
-        return property;
+    public String getType() {
+        return type;
+    }
+
+    public String getUserIdentifier() {
+        return userIdentifier;
+    }
+
+    public List<String> getResources() {
+        return resources;
+    }
+
+    public Map<String, List<String>> getUserAttributes() {
+        return userAttributes;
+    }
+
+    public List<Property> getProperties() {
+        return properties;
     }
 }

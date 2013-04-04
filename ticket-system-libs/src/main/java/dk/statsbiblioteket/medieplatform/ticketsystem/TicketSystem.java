@@ -2,7 +2,6 @@ package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
-import javax.ws.rs.core.MultivaluedMap;
 import java.util.*;
 
 /**
@@ -16,11 +15,12 @@ public class TicketSystem {
 
 
     private TimeSensitiveCache<String, Ticket> tickets;
+    private Authorization authorization;
 
-    public TicketSystem(long timeToLive) {
-        tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, false);//30 sec
+    public TicketSystem(long timeToLive, Authorization authorization) {
+        this.tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, false);//30 sec
+        this.authorization = authorization;
     }
-
 
 
     /**
@@ -32,34 +32,14 @@ public class TicketSystem {
         return tickets.get(id);
     }
 
-    @Deprecated
-    public Ticket issueTicket(String username,
-                              String url,
-                              MultivaluedMap<String,String> inProps){
+    public Ticket issueTicket(List<String> resources,
+                              String type,
+                              String userIdentifier,
+                              Map<String, List<String>> userAttributes) {
 
-        List<Property> properties = new ArrayList<Property>();
-        for (Map.Entry<String, List<String>> listEntry : inProps.entrySet()) {
-            for (String value : listEntry.getValue()) {
-                properties.add(new Property(listEntry.getKey(),value));
-            }
-        }
-        String id = generateID(username,url);
-        Ticket ticket = new Ticket(id, new ContentResource(url,null), username,properties,null);
-        tickets.put(id,ticket);
+        List<String> allowedResources = authorization.authorizeUser(userAttributes, type, resources);
+        Ticket ticket = new Ticket(type, userIdentifier, allowedResources, userAttributes);
+        tickets.put(ticket.getID(), ticket);
         return ticket;
     }
-
-
-
-    private String generateID(String username, String url) {
-        return UUID.randomUUID().toString();
-    }
-
-    public Map<String,Ticket> issueTickets(List<String> uuids,
-                                           List<String> userAttributes,
-                                           String type){
-        return null;
-    }
-
-
 }

@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,6 +15,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,10 +57,10 @@ public class TicketSystemService {
                              +"' as a long, using default 30 sec timetolive",e);
                     ttl = 30*1000;
                 }
-                tickets = new TicketSystem(ttl);
 
                 String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
                 authorization = new Authorization(authService);
+                tickets = new TicketSystem(ttl, authorization);
             }
         }
     }
@@ -67,60 +70,67 @@ public class TicketSystemService {
 
     @GET
     @Path("issueTicket")
-    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
-    public String issueTicketGet(){
-        log.trace("Entered issueTicketGet with a get request");
-        return "You must HTTP POST this url, not HTTP GET it";
-    }
-
-
-    @POST
-    @Path("issueTicket")
-    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
-    @Deprecated
-    public Ticket issueTicketQueryParams(@Context UriInfo ui
+    @Produces({MediaType.APPLICATION_JSON})
+    public Map<String, String> issueTicketGet(
+            @QueryParam("id") String id,
+            @QueryParam("type") String type,
+            @QueryParam("userIdentifier") String userIdentifier,
+            @Context UriInfo uriInfo
     ) throws MissingArgumentException {
-        MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
-        String username = queryParams.getFirst("username");
-        if (username == null){
-            throw new MissingArgumentException("Username is missing");
-        }
-        String resource = queryParams.getFirst("resource");
-        if (resource == null){
-            resource = queryParams.getFirst("url");
-        }
-        if (resource == null){
-            throw new MissingArgumentException("Resource/url is missing");
-        }
-
-        log.trace("Entered issueTicket with params '"
-                  +username
-                  +"' and resource='"
-                  + resource +"'");
-        Ticket ticket = tickets.issueTicket(username, resource, queryParams);
-        log.trace("Issued ticket='"+ticket.getID()+"'");
-        return ticket;
+        return issueTicketQueryParams(id, type, userIdentifier, uriInfo);
     }
+
 
 
     @POST
     @Path("issueTicket")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
-    @Deprecated
-    public Ticket issueTicketFormParams(
-            @QueryParam("username") String username,
-            @QueryParam("resource") String resource,
-            MultivaluedMap<String, String> formParams
-    ){
-        log.trace("Entered issueTicket with params '"
-                  +username
-                  +"' and resource='"
-                  + resource +"'");
-        Ticket ticket = tickets.issueTicket(username, resource, formParams);
+    @Produces({MediaType.APPLICATION_JSON})
+    public Map<String, String> issueTicketQueryParams(
+            @QueryParam("id") String id,
+            @QueryParam("type") String type,
+            @QueryParam("userIdentifier") String userIdentifier,
+            @Context UriInfo uriInfo
+    ) throws MissingArgumentException {
+        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+
+        queryParams.remove("id");
+        queryParams.remove("type");
+        queryParams.remove("userIdentifier");
+
+        if (id == null){
+            throw new MissingArgumentException("id is missing");
+        }
+
+        if (type == null){
+            throw new MissingArgumentException("type is missing");
+        }
+
+        if (userIdentifier == null){
+            throw new MissingArgumentException("userIdentifier is missing");
+        }
+
+        Map<String, List<String>> userAttributes = new HashMap<String, List<String>>();
+
+        for (String key : queryParams.keySet()) {
+            List<String> values = queryParams.get(key);
+            if (values != null && values.size() > 0) {
+                userAttributes.put(key, values);
+            }
+        }
+
+        HashMap<String, String> ticketMap = new HashMap<String, String>();
+
+        Ticket ticket = tickets.issueTicket(Arrays.asList(id), type, userIdentifier, userAttributes);
         log.trace("Issued ticket='"+ticket.getID()+"'");
-        return ticket;
+        ticketMap.put(id, ticket.getID());
+
+        log.debug("Issued ticket: " + ticket);
+
+        return ticketMap;
     }
+
+
+
 
 
 
@@ -128,7 +138,7 @@ public class TicketSystemService {
 
     @GET
     @Path("resolveTicket")
-    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Ticket resolveTicket(
             @QueryParam("ID")
             String ID)
@@ -144,7 +154,7 @@ public class TicketSystemService {
 
     @GET
     @Path("resolveTicket/{ID}")
-    @Produces({MediaType.TEXT_XML,MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Ticket resolveTicketAlt(
             @PathParam("ID")
             String ID)

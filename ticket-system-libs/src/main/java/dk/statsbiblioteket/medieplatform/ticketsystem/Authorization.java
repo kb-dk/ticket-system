@@ -1,6 +1,7 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +12,10 @@ import java.util.List;
  */
 public class Authorization {
 
+    private String service;
+
     public Authorization(String service) {
+        this.service = service;
     }
 
 
@@ -21,9 +25,12 @@ public class Authorization {
      * @param type the type of the resources
      * @return a List of UUIDs that the user is allowed to see
      */
-    public List<String> authorizeUser(List<String> userAttributes,
+    public List<String> authorizeUser(Map<String, List<String>> userAttributes,
                                       String type,
-                                      String... uuid){
-        return null;
+                                      List<String> resources){
+
+        // TODO: snak med Thomas @ http://devel06:9612/licensemodule/
+
+        return resources;
     }
 }
