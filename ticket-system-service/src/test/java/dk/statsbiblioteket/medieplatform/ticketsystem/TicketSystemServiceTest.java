@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.Map;
 
 public class TicketSystemServiceTest {
@@ -20,7 +21,7 @@ public class TicketSystemServiceTest {
         WebApplicationContext context = new WebApplicationContext(webApplication, request, null);
 
         TicketSystemService ticketSystemService = new TicketSystemService();
-        Map<String,String> ticketMap = ticketSystemService.issueTicketQueryParams("id", "type", "userIdentifier", context);
+        Map<String,String> ticketMap = ticketSystemService.issueTicketQueryParams(Arrays.asList("id"), "type", "userIdentifier", context);
         Assert.assertNotNull(ticketMap);
     }
 }

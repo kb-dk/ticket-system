@@ -15,7 +15,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +71,7 @@ public class TicketSystemService {
     @Path("issueTicket")
     @Produces({MediaType.APPLICATION_JSON})
     public Map<String, String> issueTicketGet(
-            @QueryParam("id") String id,
+            @QueryParam("id") List<String> id,
             @QueryParam("type") String type,
             @QueryParam("userIdentifier") String userIdentifier,
             @Context UriInfo uriInfo
@@ -86,7 +85,7 @@ public class TicketSystemService {
     @Path("issueTicket")
     @Produces({MediaType.APPLICATION_JSON})
     public Map<String, String> issueTicketQueryParams(
-            @QueryParam("id") String id,
+            @QueryParam("id") List<String> resources,
             @QueryParam("type") String type,
             @QueryParam("userIdentifier") String userIdentifier,
             @Context UriInfo uriInfo
@@ -97,7 +96,7 @@ public class TicketSystemService {
         queryParams.remove("type");
         queryParams.remove("userIdentifier");
 
-        if (id == null){
+        if (resources == null){
             throw new MissingArgumentException("id is missing");
         }
 
@@ -120,8 +119,10 @@ public class TicketSystemService {
 
         HashMap<String, String> ticketMap = new HashMap<String, String>();
 
-        Ticket ticket = tickets.issueTicket(Arrays.asList(id), type, userIdentifier, userAttributes);
-        ticketMap.put(id, ticket.getID());
+        Ticket ticket = tickets.issueTicket(resources, type, userIdentifier, userAttributes);
+        for (String resource : resources) {
+            ticketMap.put(resource, ticket.getID());
+        }
         log.debug("Issued ticket: " + ticket);
 
         return ticketMap;
