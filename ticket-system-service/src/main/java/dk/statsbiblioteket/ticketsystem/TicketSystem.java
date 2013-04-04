@@ -1,10 +1,8 @@
-package dk.statsbiblioteket.doms.authchecker;
+package dk.statsbiblioteket.ticketsystem;
 
-import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
-import dk.statsbiblioteket.doms.authchecker.exceptions.MissingArgumentException;
-import dk.statsbiblioteket.doms.authchecker.ticketissuer.Authorization;
-import dk.statsbiblioteket.doms.authchecker.ticketissuer.Ticket;
-import dk.statsbiblioteket.doms.authchecker.exceptions.TicketNotFoundException;
+import dk.statsbiblioteket.ticketsystem.BackendException;
+import dk.statsbiblioteket.ticketsystem.MissingArgumentException;
+import dk.statsbiblioteket.ticketsystem.TicketNotFoundException;
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,7 +23,7 @@ import javax.ws.rs.core.UriInfo;
 @Path("/tickets/")
 public class TicketSystem {
 
-    private static dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem tickets;
+    private static dk.statsbiblioteket.ticketsystem.TicketSystem tickets;
     private static Authorization authorization;
 
     private static final Object lock = new Object();
@@ -52,7 +50,7 @@ public class TicketSystem {
                              +"' as a long, using default 30 sec timetolive",e);
                     ttl = 30*1000;
                 }
-                tickets = new dk.statsbiblioteket.doms.authchecker.ticketissuer.TicketSystem(ttl);
+                tickets = new dk.statsbiblioteket.ticketsystem.TicketSystem(ttl);
 
                 String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
                 authorization = new Authorization(authService);

@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.authchecker.ticketissuer;
+package dk.statsbiblioteket.ticketsystem;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.authchecker;
+package dk.statsbiblioteket;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

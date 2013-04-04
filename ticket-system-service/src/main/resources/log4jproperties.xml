@@ -34,7 +34,7 @@
         </layout>
     </appender>
 
-    <logger name="dk.statsbiblioteket.doms.authchecker">
+    <logger name="dk.statsbiblioteket.ticketsystem">
         <level value="INFO" />
         <appender-ref ref="AuthCheckerFile" />
     </logger>

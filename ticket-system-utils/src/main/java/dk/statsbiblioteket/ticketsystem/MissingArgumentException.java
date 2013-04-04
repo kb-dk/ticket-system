@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.authchecker.exceptions;
+package dk.statsbiblioteket.ticketsystem;
 
 /**
  * Created by IntelliJ IDEA.

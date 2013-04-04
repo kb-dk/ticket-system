@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>dk.statsbiblioteket.doms.authchecker</groupId>
-        <artifactId>ticket-system</artifactId>
+        <groupId>dk.statsbiblioteket.ticket-system</groupId>
+        <artifactId>ticket-system-parent</artifactId>
         <version>0.0.13-SNAPSHOT</version>
     </parent>
 
 
-    <artifactId>${parent.artifactId}-utils</artifactId>
+    <artifactId>ticket-system-utils</artifactId>
 
     
 </project>

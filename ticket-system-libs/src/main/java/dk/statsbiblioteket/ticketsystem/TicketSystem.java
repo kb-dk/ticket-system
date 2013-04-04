@@ -1,9 +1,8 @@
-package dk.statsbiblioteket.doms.authchecker.ticketissuer;
+package dk.statsbiblioteket.ticketsystem;
 
 import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
 
 import javax.ws.rs.core.MultivaluedMap;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**

@@ -1,6 +1,4 @@
-package dk.statsbiblioteket.doms.authchecker.exceptions;
-
-import dk.statsbiblioteket.doms.authchecker.exceptions.BackendException;
+package dk.statsbiblioteket.ticketsystem;
 
 /**
  * Created by IntelliJ IDEA.

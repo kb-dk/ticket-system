@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.authchecker.ticketissuer;
+package dk.statsbiblioteket.ticketsystem;
 
 import java.util.List;
 
