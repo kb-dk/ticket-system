@@ -31,7 +31,7 @@
             dk.statsbiblioteket.ticket-system.auth-checker
         </param-name>
         <param-value>
-            http://devel06:9612/licensemodule/
+            http://devel06:9612/licensemodule/services/
         </param-value>
     </context-param>
 

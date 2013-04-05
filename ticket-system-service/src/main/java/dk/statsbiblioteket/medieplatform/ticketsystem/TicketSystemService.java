@@ -120,7 +120,7 @@ public class TicketSystemService {
         HashMap<String, String> ticketMap = new HashMap<String, String>();
 
         Ticket ticket = tickets.issueTicket(resources, type, userIdentifier, userAttributes);
-        for (String resource : resources) {
+        for (String resource : ticket.getResources()) {
             ticketMap.put(resource, ticket.getID());
         }
         log.debug("Issued ticket: " + ticket);

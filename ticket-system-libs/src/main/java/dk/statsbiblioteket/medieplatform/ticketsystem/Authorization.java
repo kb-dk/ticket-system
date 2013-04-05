@@ -1,5 +1,14 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+
+import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,16 +20,19 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class Authorization {
+    public static final Client client = Client.create();
 
     private String service;
+    private final WebResource webResource;
 
     public Authorization(String service) {
         this.service = service;
+        webResource = client.resource(service);
     }
 
 
     /**
-     * @param uuid the list of UUIDs that we want to examine
+     * @param resources the list of UUIDs that we want to examine
      * @param userAttributes the user attributes
      * @param type the type of the resources
      * @return a List of UUIDs that the user is allowed to see
@@ -29,8 +41,35 @@ public class Authorization {
                                       String type,
                                       List<String> resources){
 
-        // TODO: snak med Thomas @ http://devel06:9612/licensemodule/
 
-        return resources;
+        AuthorizationRequest authorizationRequest = new AuthorizationRequest(resources, type, transform(userAttributes));
+
+
+        AuthorizationResponse authorizationResponse = webResource.path("/checkAccessForIds")
+                .type(MediaType.TEXT_XML)
+                .post(AuthorizationResponse.class, authorizationRequest);
+
+//        try {
+//            JAXBContext jaxbContext = JAXBContext.newInstance(AuthorizationRequest.class, AuthorizationResponse.class);
+//            Marshaller marshaller = jaxbContext.createMarshaller();
+//            marshaller.marshal(authorizationRequest,System.out);
+//             marshaller.marshal(authorizationResponse,System.out);
+//        } catch (JAXBException e) {
+//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//        }
+//
+//        System.out.println(authorizationResponse.getQuery());
+
+        return authorizationResponse.getResources();
+    }
+
+    public List<UserAttribute> transform(Map<String, List<String>> userAttributes) {
+        ArrayList<UserAttribute> result = new ArrayList<UserAttribute>();
+
+        for (Map.Entry<String, List<String>> entry : userAttributes.entrySet()) {
+            result.add(new UserAttribute(entry.getKey(), entry.getValue()));
+        }
+
+        return result;
     }
 }

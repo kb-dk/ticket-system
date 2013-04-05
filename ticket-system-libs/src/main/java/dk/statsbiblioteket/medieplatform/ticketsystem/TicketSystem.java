@@ -37,9 +37,11 @@ public class TicketSystem {
                               String userIdentifier,
                               Map<String, List<String>> userAttributes) {
 
-        List<String> allowedResources = authorization.authorizeUser(userAttributes, type, resources);
-        Ticket ticket = new Ticket(type, userIdentifier, allowedResources, userAttributes);
-        tickets.put(ticket.getID(), ticket);
+        List<String> authorizedResources = authorization.authorizeUser(userAttributes, type, resources);
+        Ticket ticket = new Ticket(type, userIdentifier, authorizedResources, userAttributes);
+        if (!ticket.getResources().isEmpty()) {
+            tickets.put(ticket.getID(), ticket);
+        }
         return ticket;
     }
 }
