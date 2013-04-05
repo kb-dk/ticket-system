@@ -1,5 +1,5 @@
 
-package dk.statsbiblioteket.medieplatform.ticketsystem;
+package dk.statsbiblioteket.medieplatform.ticketsystem.authorization;
 
 import java.util.ArrayList;
 import java.util.List;

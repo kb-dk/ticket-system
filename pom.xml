@@ -19,7 +19,7 @@
 
 
     <modules>
-        <module>ticket-system-utils</module>
+        <module>ticket-system-common</module>
         <module>ticket-system-service</module>
         <module>ticket-system-libs</module>
     </modules>

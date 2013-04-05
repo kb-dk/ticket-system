@@ -39,7 +39,7 @@ public class TicketSystem {
 
         List<String> authorizedResources = authorization.authorizeUser(userAttributes, type, resources);
         Ticket ticket = new Ticket(type, userIdentifier, authorizedResources, userAttributes);
-        if (!ticket.getResources().isEmpty()) {
+        if (!ticket.getResources().isEmpty()) {//No need to preserve the ticket, if it does not allow access to anything
             tickets.put(ticket.getID(), ticket);
         }
         return ticket;

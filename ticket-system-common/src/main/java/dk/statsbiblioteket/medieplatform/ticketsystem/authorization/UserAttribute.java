@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.medieplatform.ticketsystem;
+package dk.statsbiblioteket.medieplatform.ticketsystem.authorization;
 
 
 import javax.xml.bind.annotation.XmlAccessType;

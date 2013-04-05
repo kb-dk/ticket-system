@@ -10,7 +10,7 @@
     </parent>
 
 
-    <artifactId>ticket-system-utils</artifactId>
+    <artifactId>ticket-system-common</artifactId>
 
     
 </project>

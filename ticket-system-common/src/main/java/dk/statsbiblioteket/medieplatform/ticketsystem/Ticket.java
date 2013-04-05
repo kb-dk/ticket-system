@@ -17,21 +17,30 @@ import java.util.UUID;
 })
 @XmlRootElement
 public class Ticket{
+    /**
+     * The ticket ID
+     * */
     @XmlElement(nillable = false, required = true)
     private String ID;
 
+    /*The presentation type that this ticket allows access to
+    * */
     @XmlElement(nillable = false, required = true)
     private String type;
 
+    /*The user identifier, probably his IP address. The ticket should only be valid for the user with this identifier*/
     @XmlElement(nillable = false, required = true)
     private String userIdentifier;
 
+    /*The resources that this ticket provides access to*/
     @XmlElement(nillable = false, required = true)
     private List<String> resources;
 
+    /* The user attributes. Mainly preserved for logging purposes*/
     @XmlElement(nillable = false, required = true)
     private Map<String, List<String>> userAttributes;
 
+    /*Additionel properties to have in the ticket*/
     @XmlElement(nillable = false, required = false)
     List<Property> properties;
 

@@ -2,12 +2,11 @@ package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.AuthorizationRequest;
+import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.AuthorizationResponse;
+import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.UserAttribute;
 
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +21,9 @@ import java.util.Map;
 public class Authorization {
     public static final Client client = Client.create();
 
-    private String service;
     private final WebResource webResource;
 
     public Authorization(String service) {
-        this.service = service;
         webResource = client.resource(service);
     }
 

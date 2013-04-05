@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>ticket-system-utils</artifactId>
+            <artifactId>ticket-system-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
