@@ -15,7 +15,7 @@ import java.util.List;
 })
 @XmlRootElement(name = "checkAccessForIdsInputDTO")
 public class AuthorizationRequest {
-    @XmlElement(name = "ids")
+    @XmlElement(name = "ids", required = true)
     private List<String> resources;
 
     @XmlElement(name = "presentationType", required = true)
