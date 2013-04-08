@@ -30,7 +30,6 @@ import java.util.Map;
 public class TicketSystemService {
 
     private static TicketSystem tickets;
-    private static Authorization authorization;
 
     private static final Object lock = new Object();
 
@@ -58,7 +57,7 @@ public class TicketSystemService {
                 }
 
                 String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
-                authorization = new Authorization(authService);
+                Authorization authorization = new Authorization(authService);
                 tickets = new TicketSystem(ttl, authorization);
             }
         }
