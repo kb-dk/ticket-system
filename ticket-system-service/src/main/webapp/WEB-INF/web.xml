@@ -26,7 +26,6 @@
 
 
     <context-param>
-
         <param-name>
             dk.statsbiblioteket.ticket-system.auth-checker
         </param-name>
@@ -35,6 +34,24 @@
         </param-value>
     </context-param>
 
+
+    <context-param>
+        <param-name>
+            dk.statsbiblioteket.ticket-system.memcacheServer
+        </param-name>
+        <param-value>
+            localhost
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>
+            dk.statsbiblioteket.ticket-system.memcachePort
+        </param-name>
+        <param-value>
+            11211
+        </param-value>
+    </context-param>
 
 
 
