@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ticket", propOrder = {
-        "ID",
+        "id",
         "userIdentifier",
         "userAttributes",
         "type",
@@ -18,10 +18,10 @@ import java.util.UUID;
 @XmlRootElement
 public class Ticket{
     /**
-     * The ticket ID
+     * The ticket id
      * */
     @XmlElement(nillable = false, required = true)
-    private String ID;
+    private String id;
 
     /*The presentation type that this ticket allows access to
     * */
@@ -48,7 +48,7 @@ public class Ticket{
     }
 
     public Ticket(String type, String userIdentifier, List<String> resources, Map<String, List<String>> userAttributes) {
-        this.ID = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.type = type;
         this.userIdentifier = userIdentifier;
         this.resources = resources;
@@ -58,7 +58,7 @@ public class Ticket{
     @Override
     public String toString() {
         return "Ticket{" +
-                "ID='" + ID + '\'' +
+                "id='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", userIdentifier='" + userIdentifier + '\'' +
                 ", resources=" + resources +
@@ -67,8 +67,8 @@ public class Ticket{
                 '}';
     }
 
-    public String getID() {
-        return ID;
+    public String getId() {
+        return id;
     }
 
     public String getType() {

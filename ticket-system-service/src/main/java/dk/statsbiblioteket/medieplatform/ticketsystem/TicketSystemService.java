@@ -1,6 +1,7 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
+import net.spy.memcached.MemcachedClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -15,6 +16,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,8 @@ import java.util.Map;
 @Path("/tickets/")
 public class TicketSystemService {
 
+    private static final String MEMCACHE_SERVER = "dk.statsbiblioteket.ticket-system.memcacheServer";
+    private static final String MEMCACHE_PORT = "dk.statsbiblioteket.ticket-system.memcachePort";
     private static TicketSystem tickets;
 
     private static final Object lock = new Object();
@@ -43,22 +48,36 @@ public class TicketSystemService {
     public TicketSystemService() throws BackendException {
         log.trace("Created a new TicketSystem webservice object");
         synchronized (lock){
-            if (tickets == null){
-                long ttl;
+            if (tickets == null) {
+                int ttl;
                 try {
                     String ttlString = ConfigCollection.getProperties()
-                            .getProperty(TICKET_TTL_PROP,""+30*1000);
-                    log.trace("Read '"+TICKET_TTL_PROP+"' property as '"+ttlString+"'");
-                    ttl = Long.parseLong(ttlString);
+                            .getProperty(TICKET_TTL_PROP, "" + 30 * 1000);
+                    log.trace("Read '" + TICKET_TTL_PROP + "' property as '" + ttlString + "'");
+                    ttl = Integer.parseInt(ttlString);
                 } catch (NumberFormatException e) {
-                    log.warn("Could not parse the  '"+ TICKET_TTL_PROP
-                             +"' as a long, using default 30 sec timetolive",e);
-                    ttl = 30*1000;
+                    log.warn("Could not parse the  '" + TICKET_TTL_PROP
+                            + "' as a long, using default 30 sec timetolive", e);
+                    ttl = 30 * 1000;
                 }
 
                 String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
                 Authorization authorization = new Authorization(authService);
-                tickets = new TicketSystem(ttl, authorization);
+
+
+                String memcacheServer = ConfigCollection.getProperties().getProperty(MEMCACHE_SERVER);
+                int memcachePort = Integer.parseInt(ConfigCollection.getProperties().getProperty(MEMCACHE_PORT));
+
+                MemcachedClient memCachedTickets;
+                try {
+                    memCachedTickets = new MemcachedClient(
+                            new InetSocketAddress(memcacheServer, memcachePort));
+                } catch (IOException e) {
+                    throw new Error("Failed to connect to cache, ticket system fails to start", e);
+                }
+
+
+                tickets = new TicketSystem(memCachedTickets, ttl,authorization);
             }
         }
     }
@@ -120,7 +139,7 @@ public class TicketSystemService {
 
         Ticket ticket = tickets.issueTicket(resources, type, userIdentifier, userAttributes);
         for (String resource : ticket.getResources()) {
-            ticketMap.put(resource, ticket.getID());
+            ticketMap.put(resource, ticket.getId());
         }
         log.debug("Issued ticket: " + ticket);
 
@@ -146,7 +165,7 @@ public class TicketSystemService {
         if (ticket == null){
             throw new TicketNotFoundException("The ticket ID '"+ID+"' was not found in the system");
         }
-        log.trace("Found ticket='"+ticket.getID()+"'");
+        log.trace("Found ticket='"+ticket.getId()+"'");
         return ticket;
     }
 

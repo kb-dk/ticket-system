@@ -1,7 +1,10 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
-import dk.statsbiblioteket.util.caching.TimeSensitiveCache;
+import net.spy.memcached.MemcachedClient;
+import net.spy.memcached.internal.OperationFuture;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -14,11 +17,15 @@ import java.util.*;
 public class TicketSystem {
 
 
-    private TimeSensitiveCache<String, Ticket> tickets;
-    private Authorization authorization;
+    private final MemcachedClient memCachedTickets;
+    private final Authorization authorization;
+    private final int timeToLive;
+    private final ObjectMapper mapper;
 
-    public TicketSystem(long timeToLive, Authorization authorization) {
-        this.tickets = new TimeSensitiveCache<String, Ticket>(timeToLive, false);//30 sec
+    public TicketSystem(MemcachedClient memCachedTickets, int timeToLive, Authorization authorization) {
+        this.memCachedTickets = memCachedTickets;
+        this.timeToLive = timeToLive;
+        this.mapper = new ObjectMapper();
         this.authorization = authorization;
     }
 
@@ -29,7 +36,16 @@ public class TicketSystem {
      * @return the ticket, or null of the ticket is not found
      */
     public Ticket getTicketFromID(String id){
-        return tickets.get(id);
+        String ticketString = (String) memCachedTickets.get(id);
+        try {
+            if (ticketString != null){
+                return mapper.readValue(ticketString,Ticket.class);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public Ticket issueTicket(List<String> resources,
@@ -40,7 +56,19 @@ public class TicketSystem {
         List<String> authorizedResources = authorization.authorizeUser(userAttributes, type, resources);
         Ticket ticket = new Ticket(type, userIdentifier, authorizedResources, userAttributes);
         if (!ticket.getResources().isEmpty()) {//No need to preserve the ticket, if it does not allow access to anything
-            tickets.put(ticket.getID(), ticket);
+            try {
+                String ticketString = mapper.writeValueAsString(ticket);
+                OperationFuture<Boolean> added = memCachedTickets.add(ticket.getId(), timeToLive, ticketString);
+                while (!added.isDone()){
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+            } catch (IOException e) {
+                //ignore
+            }
         }
         return ticket;
     }
