@@ -68,6 +68,8 @@ public class TicketSystemService {
                 String memcacheServer = ConfigCollection.getProperties().getProperty(MEMCACHE_SERVER);
                 int memcachePort = Integer.parseInt(ConfigCollection.getProperties().getProperty(MEMCACHE_PORT));
 
+
+                //TODO how is reconnect handled?
                 MemcachedClient memCachedTickets;
                 try {
                     memCachedTickets = new MemcachedClient(
