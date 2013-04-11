@@ -14,13 +14,13 @@
     <context-param>
         <description>
             The time that issued tickets should live before being removed. Unit
-            is milliseconds
+            is seconds
         </description>
         <param-name>
             dk.statsbiblioteket.ticket-system.timeToLive
         </param-name>
         <param-value>
-            1200000
+            1200
         </param-value>
     </context-param>
 
