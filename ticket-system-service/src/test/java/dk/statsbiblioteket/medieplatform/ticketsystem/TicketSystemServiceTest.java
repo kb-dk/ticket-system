@@ -6,6 +6,7 @@ import com.sun.jersey.server.impl.application.WebApplicationImpl;
 import com.sun.jersey.spi.container.ContainerRequest;
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import junit.framework.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.URI;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class TicketSystemServiceTest {
 
     @Test
+    @Ignore("online test")
     public void testIssueTicket() throws BackendException, URISyntaxException {
         ConfigCollection.getProperties().setProperty(
                 "dk.statsbiblioteket.ticket-system.auth-checker",
@@ -30,7 +32,7 @@ public class TicketSystemServiceTest {
         TicketSystemService ticketSystemService = new TicketSystemService();
         Map<String,String> ticketMap = ticketSystemService.issueTicketQueryParams(
                 Arrays.asList("doms_reklamefilm:uuid:35a1aa76-97a1-4f1b-b5aa-ad2a246eeeec"),
-                "Streame",
+                "Stream",
                 "userIdentifier", context);
         System.out.println(ticketMap);
         Assert.assertNotNull(ticketMap);

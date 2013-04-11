@@ -9,6 +9,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
+ * TODO doc
  * Created by IntelliJ IDEA.
  * User: abr
  * Date: Oct 4, 2010

@@ -5,9 +5,12 @@ import net.spy.memcached.internal.OperationFuture;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+
 
 /**
+ * TODO
  * Created by IntelliJ IDEA.
  * User: abr + mar
  * Date: Oct 7, 2010
@@ -44,6 +47,7 @@ public class TicketSystem {
                 return null;
             }
         } catch (IOException e) {
+            //Jackson reading from string, should never happen
             return null;
         }
     }
@@ -61,12 +65,16 @@ public class TicketSystem {
                 OperationFuture<Boolean> added = memCachedTickets.add(ticket.getId(), timeToLive, ticketString);
                 while (!added.isDone()){
                     try {
+                        //expo backoff
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
 
                     }
+                    //TODO timeout
+
                 }
             } catch (IOException e) {
+                //Jackson reading from string, should never happen
                 //ignore
             }
         }

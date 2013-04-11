@@ -22,16 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: abr
- * Date: 3/25/11
- * Time: 12:17 PM
- * To change this template use File | Settings | File Templates.
- */
 @Path("/tickets/")
 public class TicketSystemService {
 
+    //TODO use packagename
     private static final String MEMCACHE_SERVER = "dk.statsbiblioteket.ticket-system.memcacheServer";
     private static final String MEMCACHE_PORT = "dk.statsbiblioteket.ticket-system.memcachePort";
     private static TicketSystem tickets;

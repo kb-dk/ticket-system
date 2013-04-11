@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * TODO
  * Created with IntelliJ IDEA.
  * User: abr
  * Date: 4/3/13
@@ -19,11 +20,15 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class Authorization {
+
+    //TODO check threadsafe here, something is odd
     public static final Client client = Client.create();
 
     private final WebResource webResource;
 
+    //TODO what is service?
     public Authorization(String service) {
+        //This webresource is not threadsafe
         webResource = client.resource(service);
     }
 
@@ -46,21 +51,10 @@ public class Authorization {
                 .type(MediaType.TEXT_XML)
                 .post(AuthorizationResponse.class, authorizationRequest);
 
-//        try {
-//            JAXBContext jaxbContext = JAXBContext.newInstance(AuthorizationRequest.class, AuthorizationResponse.class);
-//            Marshaller marshaller = jaxbContext.createMarshaller();
-//            marshaller.marshal(authorizationRequest,System.out);
-//             marshaller.marshal(authorizationResponse,System.out);
-//        } catch (JAXBException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-//
-//        System.out.println(authorizationResponse.getQuery());
-
         return authorizationResponse.getResources();
     }
 
-    public List<UserAttribute> transform(Map<String, List<String>> userAttributes) {
+    private List<UserAttribute> transform(Map<String, List<String>> userAttributes) {
         ArrayList<UserAttribute> result = new ArrayList<UserAttribute>();
 
         for (Map.Entry<String, List<String>> entry : userAttributes.entrySet()) {
