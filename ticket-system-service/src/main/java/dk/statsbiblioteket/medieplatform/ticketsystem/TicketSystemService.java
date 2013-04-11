@@ -1,6 +1,7 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
+import net.spy.memcached.BinaryConnectionFactory;
 import net.spy.memcached.MemcachedClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +27,14 @@ import java.util.Map;
 @Path("/tickets/")
 public class TicketSystemService {
 
-    //TODO use packagename
-    private static final String MEMCACHE_SERVER = "dk.statsbiblioteket.ticket-system.memcacheServer";
-    private static final String MEMCACHE_PORT = "dk.statsbiblioteket.ticket-system.memcachePort";
+    private static final String MEMCACHE_SERVER = "dk.statsbiblioteket.medieplatform.ticketsystem.memcacheServer";
+    private static final String MEMCACHE_PORT = "dk.statsbiblioteket.medieplatform.ticketsystem.memcachePort";
     private static TicketSystem tickets;
 
     private static final Object lock = new Object();
 
-    private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.ticket-system.timeToLive";
-    private static final String TICKET_AUTH_SERVICE = "dk.statsbiblioteket.ticket-system.auth-checker";
+    private static final String TICKET_TTL_PROP = "dk.statsbiblioteket.medieplatform.ticketsystem.timeToLive";
+    private static final String TICKET_AUTH_SERVICE = "dk.statsbiblioteket.medieplatform.ticketsystem.auth-checker";
 
     private final Log log = LogFactory.getLog(TicketSystemService.class);
 
@@ -46,13 +47,13 @@ public class TicketSystemService {
                 int ttl;
                 try {
                     String ttlString = ConfigCollection.getProperties()
-                            .getProperty(TICKET_TTL_PROP, "" + 30 * 1000);
+                            .getProperty(TICKET_TTL_PROP, "" + 30);
                     log.trace("Read '" + TICKET_TTL_PROP + "' property as '" + ttlString + "'");
                     ttl = Integer.parseInt(ttlString);
                 } catch (NumberFormatException e) {
                     log.warn("Could not parse the  '" + TICKET_TTL_PROP
                             + "' as a long, using default 30 sec timetolive", e);
-                    ttl = 30 * 1000;
+                    ttl = 30;
                 }
 
                 String authService = ConfigCollection.getProperties().getProperty(TICKET_AUTH_SERVICE);
@@ -66,8 +67,8 @@ public class TicketSystemService {
                 //TODO how is reconnect handled?
                 MemcachedClient memCachedTickets;
                 try {
-                    memCachedTickets = new MemcachedClient(
-                            new InetSocketAddress(memcacheServer, memcachePort));
+                    memCachedTickets = new MemcachedClient(new BinaryConnectionFactory(),
+                            Arrays.asList(new InetSocketAddress(memcacheServer, memcachePort)));
                 } catch (IOException e) {
                     throw new Error("Failed to connect to cache, ticket system fails to start", e);
                 }

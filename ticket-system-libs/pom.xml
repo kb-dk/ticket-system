@@ -10,32 +10,18 @@
 
     <artifactId>ticket-system-libs</artifactId>
 
-    <repositories>
-          <repository>
-              <id>spy</id>
-              <name>Spy Repository</name>
-              <layout>default</layout>
-              <url>http://files.couchbase.com/maven2/</url>
-              <snapshots>
-                  <enabled>false</enabled>
-              </snapshots>
-          </repository>
-      </repositories>
+
 
     <dependencies>
 
         <dependency>
-            <!--TODO depend management-->
         	<groupId>org.codehaus.jackson</groupId>
         	<artifactId>jackson-mapper-asl</artifactId>
-        	<version>1.9.12</version>
         </dependency>
 
         <dependency>
-            <!--TODO depend management-->
             <groupId>spy</groupId>
             <artifactId>spymemcached</artifactId>
-            <version>2.8.1</version>
         </dependency>
 
 

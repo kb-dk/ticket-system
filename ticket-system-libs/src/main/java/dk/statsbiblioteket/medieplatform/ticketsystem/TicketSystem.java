@@ -10,21 +10,38 @@ import java.util.Map;
 
 
 /**
- * TODO
- * Created by IntelliJ IDEA.
- * User: abr + mar
- * Date: Oct 7, 2010
- * Time: 3:19:56 PM
- * To change this template use File | Settings | File Templates.
+ * The backend of the ticket system. The ticket system is implemented as a client to memcached. The tickets are
+ * serialized to json and stored/retrieved from the memcache.
  */
 public class TicketSystem {
 
 
+    /**
+     * The client to the memcached database
+     */
     private final MemcachedClient memCachedTickets;
+
+    /**
+     * The authorization object, used to verify that the user is allowed to access the requested resources
+     */
     private final Authorization authorization;
+
+    /**
+     * The lifetime of a ticket, in SECONDS!!!
+     */
     private final int timeToLive;
+
+    /**
+     * The json interface, to map objects to and from json.
+     */
     private final ObjectMapper mapper;
 
+    /**
+     * Create a new ticket system backend. Principly, you could have multiple of these
+     * @param memCachedTickets the client to the memcached server
+     * @param timeToLive the lifetime of the tickets, in SECONDS!!!
+     * @param authorization the authorization object
+     */
     public TicketSystem(MemcachedClient memCachedTickets, int timeToLive, Authorization authorization) {
         this.memCachedTickets = memCachedTickets;
         this.timeToLive = timeToLive;
@@ -52,6 +69,15 @@ public class TicketSystem {
         }
     }
 
+    /**
+     * Issue a ticket for the given resources, if the user is allowed to access these.
+     * The ticket will be issued for the subset of the resources that the user is allowed
+     * @param resources the resources the user want to see
+     * @param type the type of the resources
+     * @param userIdentifier the identifier of the user, often the IP
+     * @param userAttributes The user attributes, a map of strings to lists of string values
+     * @return a ticket for the resources the user can see
+     */
     public Ticket issueTicket(List<String> resources,
                               String type,
                               String userIdentifier,
@@ -62,16 +88,15 @@ public class TicketSystem {
         if (!ticket.getResources().isEmpty()) {//No need to preserve the ticket, if it does not allow access to anything
             try {
                 String ticketString = mapper.writeValueAsString(ticket);
+                int backoffExp = 0;
                 OperationFuture<Boolean> added = memCachedTickets.add(ticket.getId(), timeToLive, ticketString);
-                while (!added.isDone()){
+
+                while ( ! (added.isDone() && backoffExp < 10)){
                     try {
-                        //expo backoff
-                        Thread.sleep(10);
+                        Thread.sleep((long) Math.pow(2,backoffExp++));
                     } catch (InterruptedException e) {
 
                     }
-                    //TODO timeout
-
                 }
             } catch (IOException e) {
                 //Jackson reading from string, should never happen

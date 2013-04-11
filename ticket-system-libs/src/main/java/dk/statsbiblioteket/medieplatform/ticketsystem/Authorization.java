@@ -12,29 +12,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO
- * Created with IntelliJ IDEA.
- * User: abr
- * Date: 4/3/13
- * Time: 1:48 PM
- * To change this template use File | Settings | File Templates.
+ * Authorization handles calling the license-Module webservice to determine which resources are allowed for the user
  */
 public class Authorization {
 
-    //TODO check threadsafe here, something is odd
     public static final Client client = Client.create();
+    private String service;
 
-    private final WebResource webResource;
 
-    //TODO what is service?
+    /**
+     * Create a new authorization client
+     * @param service the address of the license module webservice rest interface - http://devel06:9612/licensemodule/services/
+     */
     public Authorization(String service) {
-        //This webresource is not threadsafe
-        webResource = client.resource(service);
+        this.service = service;
     }
 
 
     /**
-     * @param resources the list of UUIDs that we want to examine
+     * Get the list, hopefully a real subset of the resources, that the user is allowed to access
+     *  @param resources the list of UUIDs that we want to examine
      * @param userAttributes the user attributes
      * @param type the type of the resources
      * @return a List of UUIDs that the user is allowed to see
@@ -47,6 +44,7 @@ public class Authorization {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(resources, type, transform(userAttributes));
 
 
+        WebResource webResource = client.resource(service);
         AuthorizationResponse authorizationResponse = webResource.path("/checkAccessForIds")
                 .type(MediaType.TEXT_XML)
                 .post(AuthorizationResponse.class, authorizationRequest);
@@ -54,6 +52,11 @@ public class Authorization {
         return authorizationResponse.getResources();
     }
 
+    /**
+     * Transform the user attributes
+     * @param userAttributes the user attributes
+     * @return the user attributes
+     */
     private List<UserAttribute> transform(Map<String, List<String>> userAttributes) {
         ArrayList<UserAttribute> result = new ArrayList<UserAttribute>();
 

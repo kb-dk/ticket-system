@@ -17,7 +17,7 @@
             is seconds
         </description>
         <param-name>
-            dk.statsbiblioteket.ticket-system.timeToLive
+            dk.statsbiblioteket.medieplatform.ticketsystem.timeToLive
         </param-name>
         <param-value>
             1200
@@ -27,7 +27,7 @@
 
     <context-param>
         <param-name>
-            dk.statsbiblioteket.ticket-system.auth-checker
+            dk.statsbiblioteket.medieplatform.ticketsystem.auth-checker
         </param-name>
         <param-value>
             http://devel06:9612/licensemodule/services/
@@ -37,7 +37,7 @@
 
     <context-param>
         <param-name>
-            dk.statsbiblioteket.ticket-system.memcacheServer
+            dk.statsbiblioteket.medieplatform.ticketsystem.memcacheServer
         </param-name>
         <param-value>
             localhost
@@ -46,7 +46,7 @@
 
     <context-param>
         <param-name>
-            dk.statsbiblioteket.ticket-system.memcachePort
+            dk.statsbiblioteket.medieplatform.ticketsystem.memcachePort
         </param-name>
         <param-value>
             11211

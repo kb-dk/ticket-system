@@ -21,11 +21,9 @@ public class AuthorizationTest {
         resources.add("doms_radioTVCollection:uuid:a5390b1e-69fb-47c7-b23e-7831eb59479d");
         resources.add("doms_reklamefilm:uuid:35a1aa76-97a1-4f1b-b5aa-ad2a246eeeec");
 
-        //TODO new values, make test work
         String type = "Stream";
         HashMap<String, List<String>> userAttributes = new HashMap<String, List<String>>();
-        userAttributes.put("ekstra.person", Arrays.asList("yes"));
-        userAttributes.put("ip_role_mapper.SBIPRoleMapper", Arrays.asList("SB_PUB"));
+        userAttributes.put("SBIPRoleMapper", Arrays.asList("inhouse"));
 
         List<String> authorizedResources = authorization.authorizeUser(userAttributes, type, resources);
 

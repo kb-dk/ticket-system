@@ -9,12 +9,7 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
- * TODO doc
- * Created by IntelliJ IDEA.
- * User: abr
- * Date: Oct 4, 2010
- * Time: 10:42:08 AM
- * To change this template use File | Settings | File Templates.
+ * This Fault barrier handles the conversion of BackendExceptions into http responses.
  */
 @Provider
 public class FaultBarrier implements ExceptionMapper<BackendException>{
