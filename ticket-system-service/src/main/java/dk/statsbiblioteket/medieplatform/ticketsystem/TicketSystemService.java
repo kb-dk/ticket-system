@@ -150,30 +150,31 @@ public class TicketSystemService {
 
     /*Resolving of tickets*/
 
+
     @GET
     @Path("resolveTicket")
     @Produces({MediaType.APPLICATION_JSON})
     public Ticket resolveTicket(
-            @QueryParam("ID")
-            String ID)
+            @QueryParam("ticket")
+            String ticketID)
             throws TicketNotFoundException {
-        log.trace("Entered resolveTicket with param ID='"+ID+"'");
-        Ticket ticket = tickets.getTicketFromID(ID);
+        log.trace("Entered resolveTicket with param ID='"+ticketID+"'");
+        Ticket ticket = tickets.getTicketFromID(ticketID);
         if (ticket == null){
-            throw new TicketNotFoundException("The ticket ID '"+ID+"' was not found in the system");
+            throw new TicketNotFoundException("The ticket ID '"+ticketID+"' was not found in the system");
         }
         log.trace("Found ticket='"+ticket.getId()+"'");
         return ticket;
     }
 
     @GET
-    @Path("resolveTicket/{ID}")
+    @Path("resolveTicket/{ticket}")
     @Produces({MediaType.APPLICATION_JSON})
     public Ticket resolveTicketAlt(
-            @PathParam("ID")
-            String ID)
+            @PathParam("ticket")
+            String ticketID)
             throws TicketNotFoundException {
-        return resolveTicket(ID);
+        return resolveTicket(ticketID);
     }
 
 
