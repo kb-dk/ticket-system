@@ -74,17 +74,17 @@ public class TicketSystem {
      * The ticket will be issued for the subset of the resources that the user is allowed
      * @param resources the resources the user want to see
      * @param type the type of the resources
-     * @param userIdentifier the identifier of the user, often the IP
+     * @param ipAddress the identifier of the user, often the IP
      * @param userAttributes The user attributes, a map of strings to lists of string values
      * @return a ticket for the resources the user can see
      */
     public Ticket issueTicket(List<String> resources,
                               String type,
-                              String userIdentifier,
+                              String ipAddress,
                               Map<String, List<String>> userAttributes) {
 
         List<String> authorizedResources = authorization.authorizeUser(userAttributes, type, resources);
-        Ticket ticket = new Ticket(type, userIdentifier, authorizedResources, userAttributes);
+        Ticket ticket = new Ticket(type, ipAddress, authorizedResources, userAttributes);
         if (!ticket.getResources().isEmpty()) {//No need to preserve the ticket, if it does not allow access to anything
             try {
                 String ticketString = mapper.writeValueAsString(ticket);

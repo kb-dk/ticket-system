@@ -88,10 +88,10 @@ public class TicketSystemService {
     public Map<String, String> issueTicketGet(
             @QueryParam("id") List<String> id,
             @QueryParam("type") String type,
-            @QueryParam("userIdentifier") String userIdentifier,
+            @QueryParam("ipAddress") String ipAddress,
             @Context UriInfo uriInfo
     ) throws MissingArgumentException {
-        return issueTicketQueryParams(id, type, userIdentifier, uriInfo);
+        return issueTicketQueryParams(id, type, ipAddress, uriInfo);
     }
 
 
@@ -102,14 +102,14 @@ public class TicketSystemService {
     public Map<String, String> issueTicketQueryParams(
             @QueryParam("id") List<String> resources,
             @QueryParam("type") String type,
-            @QueryParam("userIdentifier") String userIdentifier,
+            @QueryParam("ipAddress") String ipAddress,
             @Context UriInfo uriInfo
     ) throws MissingArgumentException {
         MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
 
         queryParams.remove("id");
         queryParams.remove("type");
-        queryParams.remove("userIdentifier");
+        queryParams.remove("ipAddress");
 
         if (resources == null){
             throw new MissingArgumentException("id is missing");
@@ -119,8 +119,8 @@ public class TicketSystemService {
             throw new MissingArgumentException("type is missing");
         }
 
-        if (userIdentifier == null){
-            throw new MissingArgumentException("userIdentifier is missing");
+        if (ipAddress == null){
+            throw new MissingArgumentException("ipAddress is missing");
         }
 
         Map<String, List<String>> userAttributes = new HashMap<String, List<String>>();
@@ -134,7 +134,7 @@ public class TicketSystemService {
 
         HashMap<String, String> ticketMap = new HashMap<String, String>();
 
-        Ticket ticket = tickets.issueTicket(resources, type, userIdentifier, userAttributes);
+        Ticket ticket = tickets.issueTicket(resources, type, ipAddress, userAttributes);
         for (String resource : ticket.getResources()) {
             ticketMap.put(resource, ticket.getId());
         }

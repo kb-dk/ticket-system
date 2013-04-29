@@ -33,7 +33,7 @@ public class TicketSystemServiceTest {
         Map<String,String> ticketMap = ticketSystemService.issueTicketQueryParams(
                 Arrays.asList("doms_reklamefilm:uuid:35a1aa76-97a1-4f1b-b5aa-ad2a246eeeec"),
                 "Stream",
-                "userIdentifier", context);
+                "ipAddress", context);
         System.out.println(ticketMap);
         Assert.assertNotNull(ticketMap);
         Assert.assertTrue(ticketMap.size() > 0);

@@ -9,7 +9,7 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ticket", propOrder = {
         "id",
-        "userIdentifier",
+        "ipAddress",
         "userAttributes",
         "type",
         "resources",
@@ -30,7 +30,7 @@ public class Ticket{
 
     /*The user identifier, probably his IP address. The ticket should only be valid for the user with this identifier*/
     @XmlElement(nillable = false, required = true)
-    private String userIdentifier;
+    private String ipAddress;
 
     /*The resources that this ticket provides access to*/
     @XmlElement(nillable = false, required = true)
@@ -47,10 +47,10 @@ public class Ticket{
     public Ticket() {
     }
 
-    public Ticket(String type, String userIdentifier, List<String> resources, Map<String, List<String>> userAttributes) {
+    public Ticket(String type, String ipAddress, List<String> resources, Map<String, List<String>> userAttributes) {
         this.id = UUID.randomUUID().toString();
         this.type = type;
-        this.userIdentifier = userIdentifier;
+        this.ipAddress = ipAddress;
         this.resources = resources;
         this.userAttributes = userAttributes;
     }
@@ -60,7 +60,7 @@ public class Ticket{
         return "Ticket{" +
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
-                ", userIdentifier='" + userIdentifier + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
                 ", resources=" + resources +
                 ", userAttributes=" + userAttributes +
                 ", properties=" + properties +
@@ -75,8 +75,8 @@ public class Ticket{
         return type;
     }
 
-    public String getUserIdentifier() {
-        return userIdentifier;
+    public String getIpAddress() {
+        return ipAddress;
     }
 
     public List<String> getResources() {
