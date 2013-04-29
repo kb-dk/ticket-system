@@ -54,13 +54,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>1.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>update-project-license</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <generateBundle>true</generateBundle>
                     <failIfWarning>true</failIfWarning>
