@@ -1,0 +1,24 @@
+This is the SB ticket system
+
+The idea of the ticket system is as follows
+
+1. The front page of some portal we host receive a request from a user to view a page containing protected content.
+2. They take the content id and the user attributes and the user ip and send it to this system
+3. this system sends the content id and the user attributes onwards to the authorizer
+4. The authorizer returns the content IDs that was allowed
+5. This system then makes a ticket for these content ids, and store it in a memcache.
+6. The ticket id is returnted to the portal.
+7. The portal embeds the ticket id in the url to the user
+
+When the user will then fetch the content, the following happens
+
+1. The content server reads the ticket id from the URL
+2. The content server sends a request to this system
+3. This system returns the full ticket
+4. The content server checks if the ticket allows access to the content id the user requested
+
+This system, as can be read, is a webservice acting as a frontend to a memcached instance. The webservice
+is just a war file, that should be put in any tomcat instance. The webservice is configured with context xml, an example
+of which can be found in META-INF in the war file.
+
+

@@ -25,10 +25,10 @@
     <Parameter name="dk.statsbiblioteket.medieplatform.ticketsystem.memcachePort"
                value="11211" override="false"/>
 
-    <Parameter name="dk.statsbiblioteket.medieplatform.ticketsystem.auth-checker"
+    <Parameter name="dk.statsbiblioteket.medieplatform.ticketsystem.timeToLive"
                value="1200" override="false"/>
 
-    <Parameter name="dk.statsbiblioteket.medieplatform.ticketsystem.timeToLive"
+    <Parameter name="dk.statsbiblioteket.medieplatform.ticketsystem.auth-checker"
                value="http://devel06:9612/licensemodule/services/" override="false"/>
 
 </Context>
