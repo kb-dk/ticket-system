@@ -1,2 +1,12 @@
+1.0
+userIdentifier renamed to ipAddress uniformly
+ID for resolve ticket is now "ticket"
+Tickets should actually time out sometime this life
+Context params used for configuration
+Project Rewritten to use memcache
+Accept list of resource-id's instead of a single resource id
+Can issue and resolve tickets, with authorization check
+Changed name to not mention doms
+
 0.1:
 Branched new ticket system from doms-authchecker.
