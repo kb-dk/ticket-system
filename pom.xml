@@ -17,6 +17,16 @@
         <url>https://github.com/statsbiblioteket/ticket-system</url>
     </scm>
 
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
     <repositories>
         <repository>
             <id>spy</id>
@@ -36,8 +46,32 @@
         <module>ticket-system-libs</module>
     </modules>
 
+
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>update-project-license</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <generateBundle>true</generateBundle>
+                    <failIfWarning>true</failIfWarning>
+                    <useMissingFile>true</useMissingFile>
+                    <extraExtensions>
+                        <xsd>xml</xsd>
+                    </extraExtensions>
+                    <licenseName>apache_v2</licenseName>
+
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -85,9 +119,9 @@
         <dependencies>
 
             <dependency>
-            	<groupId>org.codehaus.jackson</groupId>
-            	<artifactId>jackson-mapper-asl</artifactId>
-            	<version>1.9.12</version>
+                <groupId>org.codehaus.jackson</groupId>
+                <artifactId>jackson-mapper-asl</artifactId>
+                <version>1.9.12</version>
             </dependency>
 
             <dependency>
