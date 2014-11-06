@@ -13,8 +13,10 @@ import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.Authorizatio
 
 public class DemoAuthorizerController {
 
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.POST)
 	public AuthorizationResponse authorize(@RequestParam(value="request") AuthorizationRequest request) {
-		throw new RuntimeException("not implemented");
+		AuthorizationResponse response = new AuthorizationResponse();
+		
+		return response;
 	}
 }
