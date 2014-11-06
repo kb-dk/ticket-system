@@ -45,7 +45,7 @@
         <module>ticket-system-common</module>
         <module>ticket-system-service</module>
         <module>ticket-system-libs</module>
-    <module>ticket-system-dummy-authenticator</module>
+        <module>ticket-system-demo-authorizer</module>
   </modules>
 
 

@@ -7,6 +7,7 @@ package dk.statsbiblioteket.medieplatform.ticketsystem;
  * Time: 4:48:21 PM
  * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("serial")
 public class TicketNotFoundException extends BackendException {
 
     public TicketNotFoundException(String message) {

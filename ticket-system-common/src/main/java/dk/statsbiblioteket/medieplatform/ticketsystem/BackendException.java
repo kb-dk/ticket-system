@@ -7,6 +7,7 @@ package dk.statsbiblioteket.medieplatform.ticketsystem;
  * Time: 10:43:44 AM
  * To change this template use File | Settings | File Templates.
  */
+@SuppressWarnings("serial")
 public class BackendException extends Exception{
 
     public BackendException(String message) {
