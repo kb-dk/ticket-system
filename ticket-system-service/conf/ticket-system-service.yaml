@@ -1,0 +1,7 @@
+config:
+  ticketsystem:
+    timetolive: 1200
+    auth-checker: http://devel06:9612/licensemodule/services/
+    memcache:
+      server: localhost
+      port: 11211

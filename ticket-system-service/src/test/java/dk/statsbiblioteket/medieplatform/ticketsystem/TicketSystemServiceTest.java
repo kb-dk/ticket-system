@@ -1,10 +1,11 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
+/*
 import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.server.impl.application.WebApplicationContext;
 import com.sun.jersey.server.impl.application.WebApplicationImpl;
-import com.sun.jersey.spi.container.ContainerRequest;
-import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
+import com.sun.jersey.spi.container.ContainerRequest;*/
+//import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 import junit.framework.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class TicketSystemServiceTest {
-
+/*
     @Test
     @Ignore("online test")
     public void testIssueTicket() throws BackendException, URISyntaxException {
@@ -45,5 +46,6 @@ public class TicketSystemServiceTest {
 
 
     }
+    */
 }
 

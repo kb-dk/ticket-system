@@ -12,5 +12,12 @@
 
     <artifactId>ticket-system-common</artifactId>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+    </dependencies>
     
 </project>

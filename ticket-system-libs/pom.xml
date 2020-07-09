@@ -15,12 +15,12 @@
     <dependencies>
 
         <dependency>
-        	<groupId>org.codehaus.jackson</groupId>
-        	<artifactId>jackson-mapper-asl</artifactId>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>spy</groupId>
+            <groupId>net.spy</groupId>
             <artifactId>spymemcached</artifactId>
         </dependency>
 
@@ -32,16 +32,20 @@
         </dependency>
         <dependency>
             <groupId>dk.statsbiblioteket.sbutil</groupId>
-            <artifactId>sbutil</artifactId>
+            <artifactId>sbutil-common</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
-            <artifactId>jsr311-api</artifactId>
+            <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+        </dependency>
+        <!-- <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

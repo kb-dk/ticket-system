@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context override="true" docBase="${user.home}/services/tss-tomcat-apps/ticket-system-service.war">
+
+    <Environment name="ticket-system-service-logback-config"
+        value="${user.home}/services/tss/logback.xml"
+        type="java.lang.String"
+        override="false"/>
+    <Environment name="application-config"
+        value="${user.home}/services/tss/ticket-system-service.yaml"
+        type="java.lang.String"
+        override="false"/>
+
+</Context>

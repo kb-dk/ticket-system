@@ -2,107 +2,25 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-    <display-name>AuthChecker</display-name>
-
-    <listener>
-        <listener-class>
-            dk.statsbiblioteket.doms.webservices.configuration.ConfigContextListener
-        </listener-class>
-    </listener>
-
-
-    <context-param>
-        <description>
-            The time that issued tickets should live before being removed. Unit
-            is seconds
-        </description>
-        <param-name>
-            dk.statsbiblioteket.medieplatform.ticketsystem.timeToLive
-        </param-name>
-        <param-value>
-            1200
-        </param-value>
-    </context-param>
-
-
-    <context-param>
-        <param-name>
-            dk.statsbiblioteket.medieplatform.ticketsystem.auth-checker
-        </param-name>
-        <param-value>
-            http://devel06:9612/licensemodule/services/
-        </param-value>
-    </context-param>
-
-
-    <context-param>
-        <param-name>
-            dk.statsbiblioteket.medieplatform.ticketsystem.memcacheServer
-        </param-name>
-        <param-value>
-            localhost
-        </param-value>
-    </context-param>
-
-    <context-param>
-        <param-name>
-            dk.statsbiblioteket.medieplatform.ticketsystem.memcachePort
-        </param-name>
-        <param-value>
-            11211
-        </param-value>
-    </context-param>
-
-
+    <display-name>TicketSystem</display-name>
 
     <servlet>
         <servlet-name>TicketSystem</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
-        </servlet-class>
+        <servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
         <init-param>
-            <param-name>com.sun.jersey.config.properties.packages</param-name>
-            <param-value>dk.statsbiblioteket.medieplatform.ticketsystem</param-value>
-        </init-param>
-        <init-param>
-            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TicketSystem</servlet-name>
-        <url-pattern>/*</url-pattern>
-
-    </servlet-mapping>
-
-
-
-
-    <!--This servlet is used only to load on startup, and configure the logging framework.-->
-    <servlet>
-        <description>The servlet that is loaded on startup, and initializes the logging system</description>
-        <servlet-name>Log4jInitialisation</servlet-name>
-        <servlet-class>dk.statsbiblioteket.doms.webservices.logging.Log4JInitServlet</servlet-class>
-        <init-param>
-            <description>Name of the context param that controls the location of the log4j config file</description>
-            <param-name>
-                dk.statsbiblioteket.doms.webservices.logging.Log4JInitServlet.log4jConfigurationPropertyKey
-            </param-name>
-            <param-value>
-                dk.statsbiblioteket.medieplatform.ticketsystem.log4jconfig
-            </param-value>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>dk.statsbiblioteket.medieplatform.ticketsystem.webservice.TicketSystemServiceApplication</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
     <servlet-mapping>
-        <servlet-name>Log4jInitialisation</servlet-name>
-        <url-pattern>/log4jGoAway/</url-pattern>
+        <servlet-name>TicketSystem</servlet-name>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    <context-param>
-        <description>The location of the log4j config file</description>
-        <param-name>dk.statsbiblioteket.medieplatform.ticketsystem.log4jconfig</param-name>
-        <param-value>WEB-INF/log4jproperties.xml</param-value>
-    </context-param>
 
-
+    <listener>
+        <listener-class>dk.statsbiblioteket.medieplatform.ticketsystem.webservice.TicketSystemServiceContextListener</listener-class>
+    </listener>
 
 </web-app>
