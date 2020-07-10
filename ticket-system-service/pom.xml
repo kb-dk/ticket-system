@@ -84,7 +84,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>${groupId}</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ticket-system-libs</artifactId>
             <version>${project.version}</version>
         </dependency>
