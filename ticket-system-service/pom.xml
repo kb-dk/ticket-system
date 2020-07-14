@@ -4,15 +4,12 @@
 
     <parent>
         <groupId>dk.statsbiblioteket.medieplatform.ticketsystem</groupId>
-
         <artifactId>ticket-system-parent</artifactId>
         <version>1.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>ticket-system-service</artifactId>
     <packaging>war</packaging>
-
-
 
     <build>
         <plugins>
@@ -28,11 +25,28 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <tarLongFileMode>posix</tarLongFileMode>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
-
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
