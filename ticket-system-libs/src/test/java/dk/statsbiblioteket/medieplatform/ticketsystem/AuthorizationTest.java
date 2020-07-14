@@ -1,17 +1,18 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
-import junit.framework.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class AuthorizationTest {
     @Test
-    @Ignore
+    @Disabled
     public void testAuthorizeUser() throws Exception {
         //Online test
         //make grizzly webservice
@@ -29,6 +30,6 @@ public class AuthorizationTest {
 
         System.out.println(authorizedResources);
 
-        Assert.assertEquals(resources.size(), authorizedResources.size());
+        assertEquals(resources.size(), authorizedResources.size());
     }
 }

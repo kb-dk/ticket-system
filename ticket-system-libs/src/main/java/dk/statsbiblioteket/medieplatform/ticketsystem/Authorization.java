@@ -1,12 +1,13 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
 import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.AuthorizationRequest;
 import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.AuthorizationResponse;
 import dk.statsbiblioteket.medieplatform.ticketsystem.authorization.UserAttribute;
 
 import javax.ws.rs.core.MediaType;
+
+import org.apache.cxf.jaxrs.client.WebClient;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,6 @@ import java.util.Map;
  * Authorization handles calling the license-Module webservice to determine which resources are allowed for the user
  */
 public class Authorization {
-
-    public static final Client client = Client.create();
     private String service;
 
 
@@ -40,14 +39,12 @@ public class Authorization {
                                       String type,
                                       List<String> resources){
 
-
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(resources, type, transform(userAttributes));
 
-
-        WebResource webResource = client.resource(service);
-        AuthorizationResponse authorizationResponse = webResource.path("/checkAccessForIds")
+        WebClient client = WebClient.create(service);
+        AuthorizationResponse authorizationResponse = client.path("/checkAccessForIds")
                 .type(MediaType.TEXT_XML)
-                .post(AuthorizationResponse.class, authorizationRequest);
+                .post(authorizationRequest, AuthorizationResponse.class);
 
         return authorizationResponse.getResources();
     }

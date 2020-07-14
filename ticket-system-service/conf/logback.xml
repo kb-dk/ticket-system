@@ -1,0 +1,23 @@
+<included>
+    <contextName>TicketSystem</contextName>
+ 
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${catalina.base}/logs/ticket-system-service.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${catalina.base}/logs/ticket-system-service.%d{yyyy-MM-dd}.log</fileNamePattern>
+        <maxHistory>30</maxHistory>
+      </rollingPolicy>
+ 
+      <append>true</append>
+      <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+      </encoder>
+    </appender>
+ 
+    <root level="INFO">
+      <appender-ref ref="FILE" />
+    </root>
+    <logger name="dk.kb" level="DEBUG" />
+ 
+</included>
+

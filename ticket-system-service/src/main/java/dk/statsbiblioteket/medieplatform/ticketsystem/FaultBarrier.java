@@ -1,8 +1,7 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
-import com.sun.jersey.api.client.ClientResponse;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -14,13 +13,13 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class FaultBarrier implements ExceptionMapper<BackendException>{
 
-    private Log log = LogFactory.getLog(FaultBarrier.class);
+    private Logger log = LoggerFactory.getLogger(FaultBarrier.class);
 
     public Response toResponse(BackendException exception) {
         if (exception instanceof TicketNotFoundException){
-            return Response.status(ClientResponse.Status.GONE).entity(exception.getMessage()+": The ticket could not be found").build();
+            return Response.status(Response.Status.GONE).entity(exception.getMessage()+": The ticket could not be found").build();
         } else if (exception instanceof MissingArgumentException){
-            return Response.status(ClientResponse.Status.BAD_REQUEST).entity(exception.getMessage()+": Missing argument").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()+": Missing argument").build();
         }
         log.warn("Caught unknown exception, review how this got here",exception);
         return Response.serverError().entity(exception.getMessage()+
