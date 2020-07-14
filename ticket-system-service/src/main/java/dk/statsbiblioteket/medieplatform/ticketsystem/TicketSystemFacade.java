@@ -20,9 +20,7 @@ public class TicketSystemFacade {
     private TicketSystem ticketSystem;
     
     public static synchronized void initialize(YAML serviceConfig) {
-        if(instance == null) {
-            instance = new TicketSystemFacade(serviceConfig);
-        }
+        instance = new TicketSystemFacade(serviceConfig);
     }
     
     public static synchronized TicketSystemFacade getInstance() {
