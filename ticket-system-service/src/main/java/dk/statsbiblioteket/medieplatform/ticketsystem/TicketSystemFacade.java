@@ -73,7 +73,7 @@ public class TicketSystemFacade {
         if (ticket == null){
             throw new TicketNotFoundException("The ticket ID '" + ticketID + "' was not found in the system");
         }
-        log.trace("Found ticket='{}'", ticket.getId());
+        log.trace("Found ticket='{}'", ticket.toString());
         return ticket;
     }
     
