@@ -1,3 +1,9 @@
+1.1
+Logframework changed to slf4j and logback rather than log4j
+Now requires java 11 to be run
+Configuration format have been changed to YAML
+Webservice framework have been changed from Jersey to Apache CXF
+
 1.0
 userIdentifier renamed to ipAddress uniformly
 ID for resolve ticket is now "ticket"
