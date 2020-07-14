@@ -15,8 +15,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import dk.statsbiblioteket.medieplatform.ticketsystem.BackendException;
 import dk.statsbiblioteket.medieplatform.ticketsystem.MissingArgumentException;
@@ -26,18 +26,14 @@ import dk.statsbiblioteket.medieplatform.ticketsystem.TicketSystemFacade;
 
 @Path("/tickets/")
 public class TicketSystemService {
-
     private TicketSystemFacade tcksys; 
 
-    private final Log log = LogFactory.getLog(TicketSystemService.class);
-
-
+    private final Logger log = LoggerFactory.getLogger(TicketSystemService.class);
 
     public TicketSystemService() throws BackendException {
         tcksys = TicketSystemFacade.getInstance(); 
         log.trace("Created a new TicketSystemService object");
     }
-
 
     /*Issuing of tickets*/
 
@@ -88,7 +84,7 @@ public class TicketSystemService {
                 userAttributes.put(key, values);
             }
         }
-
+        
         return tcksys.issueTicket(resources, type, ipAddress, userAttributes);
     }
 
@@ -99,13 +95,14 @@ public class TicketSystemService {
     @Path("resolveTicket")
     @Produces({MediaType.APPLICATION_JSON})
     public Ticket resolveTicket(@QueryParam("ticket") String ticketID) throws TicketNotFoundException {
+    	log.debug("Resolving ticket with id: '{}'", ticketID);
         return tcksys.resolveTicket(ticketID);
     }
 
     @GET
     @Path("resolveTicket/{ticket}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Ticket resolveTicketAlt(@PathParam("ticket") String ticketID)throws TicketNotFoundException {
+    public Ticket resolveTicketAlt(@PathParam("ticket") String ticketID) throws TicketNotFoundException {
         return resolveTicket(ticketID);
     }
 

@@ -1,7 +1,7 @@
 package dk.statsbiblioteket.medieplatform.ticketsystem;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -13,7 +13,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class FaultBarrier implements ExceptionMapper<BackendException>{
 
-    private Log log = LogFactory.getLog(FaultBarrier.class);
+    private Logger log = LoggerFactory.getLogger(FaultBarrier.class);
 
     public Response toResponse(BackendException exception) {
         if (exception instanceof TicketNotFoundException){
