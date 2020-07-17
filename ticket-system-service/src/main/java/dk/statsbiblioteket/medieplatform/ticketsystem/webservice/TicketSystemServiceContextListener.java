@@ -47,7 +47,8 @@ public class TicketSystemServiceContextListener implements ServletContextListene
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        log.debug("TicketSystemService destroyed");
+        TicketSystemFacade.shutdown();
+        log.info("TicketSystemService destroyed");
     }
 }
 

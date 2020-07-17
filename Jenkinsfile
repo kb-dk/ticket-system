@@ -45,9 +45,9 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                                 taskScanner(highTags:'FIXME', normalTags:'TODO', includePattern: '**/*.java', excludePattern: 'target/**/*')]                
                 }
 
-//                stage('Create test project') {
-//                    recreateProject(projectName)
-//
+                stage('Create test project') {
+                    recreateProject(projectName)
+
 //                    openshift.withProject(projectName) {
 //
 //                        stage("Create build and deploy application") { 
@@ -57,7 +57,7 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 //                            openshift.create("route", "edge", "--service=java-webapp")
 //                        }
 //                    }
-//                }
+                }
 
                 stage('Push to Nexus (if Master)') {
                     sh 'env'
@@ -73,8 +73,12 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                     if (env.BRANCH_NAME == 'master') {
                         echo "On master branch, letting template app run"
                     } else {
-                        echo "Not on master branch, tearing down"
-                        openshift.selector("project/${projectName}").delete()
+                        try {
+                            echo "Not on master branch, tearing down"
+                            openshift.selector("project/${projectName}").delete()
+                        } catch (e) {
+                            
+                        }
                     }
                 }
             }
