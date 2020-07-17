@@ -18,6 +18,7 @@ public class TicketSystemFacade {
     private final Logger log = LoggerFactory.getLogger(TicketSystemFacade.class);
     private static TicketSystemFacade instance = null;
     private TicketSystem ticketSystem;
+    private MemcachedClient memCache;
     
     public static synchronized void initialize(YAML serviceConfig) {
         instance = new TicketSystemFacade(serviceConfig);
@@ -31,6 +32,14 @@ public class TicketSystemFacade {
         }
     }
     
+    public static synchronized void shutdown() {
+        getInstance().getMemcachedClient().shutdown();
+    }
+    
+    protected MemcachedClient getMemcachedClient() {
+        return memCache;
+    }
+    
     private TicketSystemFacade(YAML serviceConfig) {
         int ttl = serviceConfig.getInteger("config.ticketsystem.timetolive", 30);
 
@@ -41,16 +50,15 @@ public class TicketSystemFacade {
         int memcachePort = serviceConfig.getInteger("config.ticketsystem.memcache.port"); 
 
         //TODO how is reconnect handled?
-        MemcachedClient memCachedTickets;
         try {
-            memCachedTickets = new MemcachedClient(new BinaryConnectionFactory(),
+            memCache = new MemcachedClient(new BinaryConnectionFactory(),
                     Arrays.asList(new InetSocketAddress(memcacheServer, memcachePort)));
         } catch (IOException e) {
             throw new Error("Failed to connect to cache, ticket system fails to start", e);
         }
 
 
-        ticketSystem = new TicketSystem(memCachedTickets, ttl,authorization);
+        ticketSystem = new TicketSystem(memCache, ttl,authorization);
     }
     
     public Map<String, String> issueTicket(List<String> resources, String type, String ipAddress, 
