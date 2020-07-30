@@ -48,15 +48,15 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                 stage('Create test project') {
                     recreateProject(projectName)
 
-//                    openshift.withProject(projectName) {
-//
-//                        stage("Create build and deploy application") { 
-//                            openshift.newBuild("--strategy source", "--binary", "-i kb-infra/kb-s2i-tomcat90", "--name java-webapp")
-//                            openshift.startBuild("java-webapp", "--from-dir=.", "--follow")
-//                            openshift.newApp("java-webapp:latest")
-//                            openshift.create("route", "edge", "--service=java-webapp")
-//                        }
-//                    }
+                    openshift.withProject(projectName) {
+
+                        stage("Create build and deploy application") { 
+                            openshift.newBuild("--strategy source", "--binary", "-i kb-infra/kb-s2i-tomcat90", "--name ticket-system-service")
+                            openshift.startBuild("ticket-system-service", "--from-dir=.", "--follow")
+                            openshift.newApp("ticket-system-service:latest")
+                            openshift.create("route", "edge", "--service=ticket-system-service")
+                        }
+                    }
                 }
 
                 stage('Push to Nexus (if Master)') {
