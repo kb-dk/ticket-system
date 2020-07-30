@@ -69,12 +69,20 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                     }
                 }
 
-                stage('Cleanup') {
+                stage('Promote image') {
                     if (env.BRANCH_NAME == 'master') {
-                        echo "On master branch, letting template app run"
+                        openshift.withCredentials( 'jenkins-image-promoter-secret' ) {
+                            openshift.raw("registry login")
+                            openshift.raw("image mirror default-route-openshift-image-registry.apps.ocp-devel.kb.dk/${projectName}/ticket-system-service:latest default-route-openshift-image-registry.apps.ocp-devel.kb.dk/medieplatform/ticket-system-service:latest")
+                        }
                     } else {
+                        echo "Branch ${env.BRANCH_NAME} is not master, so no mvn deploy"
+                    }
+                }
+
+                stage('Cleanup') {
                         try {
-                            echo "Not on master branch, tearing down"
+                            echo "Cleaning up test project"
                             openshift.selector("project/${projectName}").delete()
                         } catch (e) {
                             
