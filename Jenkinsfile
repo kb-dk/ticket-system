@@ -81,12 +81,11 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                 }
 
                 stage('Cleanup') {
-                        try {
-                            echo "Cleaning up test project"
-                            openshift.selector("project/${projectName}").delete()
-                        } catch (e) {
-                            
-                        }
+                    try {
+                        echo "Cleaning up test project"
+                        openshift.selector("project/${projectName}").delete()
+                    } catch (e) {
+                         
                     }
                 }
             }
