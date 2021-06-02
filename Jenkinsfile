@@ -73,7 +73,7 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                     if (env.BRANCH_NAME == 'master') {
                         configFileProvider([configFile(fileId: "imagePromoter", variable: 'promoter')]) {
                             def promoter = load promoter
-                            promoter.promoteImage("ticket-system-service", "medieplatform", "latest")
+                            promoter.promoteImage("ticket-system-service", "${projectName}",  "medieplatform", "latest")
                         }
                     } else {
                         echo "Branch ${env.BRANCH_NAME} is not master, so no mvn deploy"
