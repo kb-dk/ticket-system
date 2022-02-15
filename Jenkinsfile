@@ -10,8 +10,6 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
     podTemplate(
             inheritFrom: 'maven',
             cloud: 'openshift', //cloud must be openshift
-            label: 'agent-with-settings.xml',
-            name: 'agent-with-settings.xml',
             volumes: [ //mount the settings.xml
                        secretVolume(mountPath: '/etc/m2', secretName: 'maven-settings')
             ]) {
@@ -23,7 +21,7 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 
         try {
             //GO to a node with maven and settings.xml
-            node('agent-with-settings.xml') {
+            node(POD_LABEL) {
                 //Do not use concurrent builds
                 properties([disableConcurrentBuilds()])
 
@@ -71,9 +69,9 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
 
                 stage('Promote image') {
                     if (env.BRANCH_NAME == 'master') {
-                        openshift.withCredentials( 'jenkins-image-promoter-secret' ) {
-                            openshift.raw("registry login")
-                            openshift.raw("image mirror default-route-openshift-image-registry.apps.ocp-devel.kb.dk/${projectName}/ticket-system-service:latest default-route-openshift-image-registry.apps.ocp-devel.kb.dk/medieplatform/ticket-system-service:latest")
+                        configFileProvider([configFile(fileId: "imagePromoter", variable: 'promoter')]) {
+                            def promoter = load promoter
+                            promoter.promoteImage("ticket-system-service", "${projectName}",  "medieplatform", "latest")
                         }
                     } else {
                         echo "Branch ${env.BRANCH_NAME} is not master, so no mvn deploy"
