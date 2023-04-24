@@ -51,7 +51,7 @@ openshift.withCluster() { // Use "default" cluster or fallback to OpenShift clus
                         stage("Create build and deploy application") { 
                             openshift.newBuild("--strategy source", "--binary", "-i kb-infra/kb-s2i-tomcat90", "--name ticket-system-service")
                             openshift.startBuild("ticket-system-service", "--from-dir=.", "--follow")
-                            openshift.newApp("ticket-system-service:latest")
+                            openshift.newApp("ticket-system-service", "-e BUILD_NUMBER=latest")
                             openshift.create("route", "edge", "--service=ticket-system-service")
                         }
                     }
